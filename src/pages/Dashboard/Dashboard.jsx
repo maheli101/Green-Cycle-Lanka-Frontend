@@ -1,42 +1,12 @@
-import React from 'react'
+
+import { Button } from 'react-bootstrap'
 
 
 function Dashboard() {
   return (
     <div>
-      <h1>
-        Home page
-      </h1>
-      <h1>
-        Home page
-      </h1>
-      <h1>
-        Home page
-      </h1>
-      <h1>
-        Home page
-      </h1>
-      <h1>
-        Home page
-      </h1>
-      <h1>
-        Home page
-      </h1>
-      <h1>
-        Home page
-      </h1>
-      <h1>
-        Home page
-      </h1>
-      <h1>
-        Home page
-      </h1>
-      <h1>
-        Home page
-      </h1>
-      <h1>
-        Home page
-      </h1>
+       <Button variant="primary">Done</Button>
+
     </div>
   )
 }
