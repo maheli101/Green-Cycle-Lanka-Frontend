@@ -1,10 +1,11 @@
 import React from 'react'
+import { Button } from 'react-bootstrap'
 
 function Loginpage() {
   return (
     <div>
       <h1>
-        Login page
+      <Button variant="outline-primary">Primary</Button>{' '}
       </h1>
     </div>
   )

@@ -11,9 +11,10 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route path="home" element={<Dashboard />} />
+          <Route path="login" element={<Loginpage />} />
           <Route path="supplier" element={<Supplier />} />
         </Route>
-        <Route path="login" element={<Loginpage />} />
+        
       </Routes>
     </Router>
   );
