@@ -7,7 +7,7 @@ function ColorSchemesExample() {
   return (
     <>
    
-      <Navbar fixed="top"  bg="success" data-bs-theme="dark" expand="lg">
+      <Navbar fixed="top"   bg="success" data-bs-theme="dark" expand="lg">
         <Container>
           <Navbar.Brand style={{ fontSize: "40px", marginRight: "90px" }} href="#home">
             Green Cycle Lanka
@@ -15,22 +15,22 @@ function ColorSchemesExample() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link style={{ marginRight: "40px" }} href="#home">
+              <Nav.Link style={{ marginRight: "40px" }} href="home">
                 Home
               </Nav.Link>
-              <Nav.Link style={{ marginRight: "40px" }} href="#supplier">
+              <Nav.Link style={{ marginRight: "40px" }} href="supplier">
                 Supplier
               </Nav.Link>
-              <Nav.Link style={{ marginRight: "40px" }} href="#buyer">
+              <Nav.Link style={{ marginRight: "40px" }} href="buyer">
                 Buyer
               </Nav.Link>
-              <Nav.Link style={{ marginRight: "40px" }} href="#login">
+              <Nav.Link style={{ marginRight: "40px" }} href="login">
                 Login
               </Nav.Link>
-              <Nav.Link style={{ marginRight: "40px" }} href="#register">
+              <Nav.Link style={{ marginRight: "40px" }} href="register">
                 Register
               </Nav.Link>
-              <Nav.Link style={{ marginRight: "40px" }} href="#aboutUs">
+              <Nav.Link style={{ marginRight: "40px" }} href="aboutUs">
                 About us
               </Nav.Link>
             </Nav>
