@@ -1,0 +1,18 @@
+
+.Log-in-btn:active {
+    background-color: white;
+    border-color: rgb(4, 244, 4);
+    color: black;
+  }
+  .Log-in-btn{
+    background-color:green;
+    margin-left: 35%;
+    width:150px;
+    height:60px;
+    border-radius:30px;
+    cursor:pointer;
+    margin-top:30px; 
+     font-size: 26px;
+     color:white;
+  }
+ 
