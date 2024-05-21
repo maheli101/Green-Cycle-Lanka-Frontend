@@ -32,7 +32,7 @@ function ContainerFluidExample() {
     <Container className="py-5">
       <Row className="mb-4">
         <Col >
-          <h4 style={sectionStyle} className="text-success">Welcome to the Supplier Interface Of Green Cycle Lanka!</h4>
+          <h4 style={sectionStyle} className="text-success">Welcome to the Buyer Interface Of Green Cycle Lanka!</h4>
         </Col>
       </Row>
 

@@ -4,9 +4,13 @@ import Loginpage from "./pages/Loginpage/Loginpage";
 import MainLayout from "./Layout/MainLayout/MainLayout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Supplier from "./pages/Supplierpage/Supplier";
+
 import Register from "./pages/Register/Register"
 import Vehicleregister from "./pages/Vehicleregister/Vehicleregister";
 import User from './pages/userProfile/userprofile'
+
+import BuyerSelectionPage from './pages/Buyer/BuyerSelectionPage';
+
 
 function App() {
   return (
@@ -15,8 +19,12 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route path="home" element={<Dashboard />} />
           <Route path="supplier" element={<Supplier />} />
+
           <Route path="user" element={<User/>} />
          
+
+          <Route path="buyer" element={<BuyerSelectionPage />} />
+
         </Route>
         <Route path="login" element={<Loginpage />} />
         <Route path="register" element={<Register />} />
