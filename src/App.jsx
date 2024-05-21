@@ -4,6 +4,7 @@ import Loginpage from "./pages/Loginpage/Loginpage";
 import MainLayout from "./Layout/MainLayout/MainLayout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Supplier from "./pages/Supplierpage/Supplier";
+import BuyerSelectionPage from './pages/Buyer/BuyerSelectionPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="home" element={<Dashboard />} />
           <Route path="login" element={<Loginpage />} />
           <Route path="supplier" element={<Supplier />} />
+          <Route path="buyer" element={<BuyerSelectionPage />} />
         </Route>
         
       </Routes>
