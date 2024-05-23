@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import RequestImage from '../../assets/Paper.jpg';
+import PaperImage from '../../assets/Glass.jpg';
 
 
 function Paper() {
@@ -13,14 +13,14 @@ function Paper() {
   
       const newErrors = {};
   
-      // Validate amount
+      
       if (!amount) {
         newErrors.amount = 'Amount is required';
       } else if (!/^\d+(\.\d+)?$/.test(amount)) {
         newErrors.amount = 'Amount must be a valid number';
       }
   
-      // Validate address
+      
       if (!address) {
         newErrors.address = 'Address is required';
       }
@@ -28,7 +28,7 @@ function Paper() {
       setErrors(newErrors);
   
       if (Object.keys(newErrors).length === 0) {
-        // Form is valid, proceed with form submission
+        
         alert('Form submitted successfully!');
       }
     };
@@ -40,9 +40,9 @@ function Paper() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          minHeight: 'calc(100vh - 50px)', // Assuming the footer height is 50px, adjust as necessary
+          minHeight: 'calc(100vh - 50px)',
           padding: '20px',
-          backgroundColor: '#f8f9fa', // Light background color
+          backgroundColor: '#f8f9fa',
         }}
       >
         <div
@@ -51,18 +51,18 @@ function Paper() {
             padding: '30px',
             borderRadius: '8px',
             textAlign: 'left',
-            maxWidth: '700px', // Increased width for better display
+            maxWidth: '700px', 
             width: '100%',
-            backgroundColor: '#fff', // White background for the form container
-            boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)', // Subtle box shadow
+            backgroundColor: '#fff', 
+            boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)', 
           }}
         >
           <img
-            src={RequestImage}
+            src={PaperImage}
             alt="Request Image"
             style={{
               width: '100%',
-              maxWidth: '150px', // Adjust max width for better responsiveness
+              maxWidth: '150px', 
               objectFit: 'cover',
               marginBottom: '30px',
               display: 'block',

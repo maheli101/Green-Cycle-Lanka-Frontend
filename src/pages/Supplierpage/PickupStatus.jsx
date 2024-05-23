@@ -10,9 +10,9 @@ function RequestForm() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: 'calc(100vh - 50px)', // Assuming the footer height is 50px, adjust as necessary
+        minHeight: 'calc(100vh - 50px)', 
         padding: '20px',
-        backgroundColor: '#f8f9fa', // Light background color
+        backgroundColor: '#f8f9fa', 
       }}
     >
       <div
@@ -21,10 +21,10 @@ function RequestForm() {
           padding: '30px',
           borderRadius: '8px',
           textAlign: 'left',
-          maxWidth: '700px', // Increased width for better display
+          maxWidth: '700px', 
           width: '100%',
-          backgroundColor: '#fff', // White background for the form container
-          boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)', // Subtle box shadow
+          backgroundColor: '#fff', 
+          boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)', 
         }}
       >
         <img
@@ -32,7 +32,7 @@ function RequestForm() {
           alt="Request Image"
           style={{
             width: '100%',
-            maxWidth: '150px', // Adjust max width for better responsiveness
+            maxWidth: '150px', 
             objectFit: 'cover',
             marginBottom: '30px',
             display: 'block',
