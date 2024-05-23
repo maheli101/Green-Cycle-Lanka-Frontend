@@ -5,6 +5,10 @@ import MainLayout from "./Layout/MainLayout/MainLayout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Supplier from "./pages/Supplierpage/Supplier";
 import PickupStatus from "./pages/Supplierpage/PickupStatus";
+import Selectitem from "./pages/Supplierpage/Selectitem";
+import Paper from "./pages/Supplierpage/Paper";
+
+
 
 
 
@@ -16,7 +20,11 @@ function App() {
           <Route path="home" element={<Dashboard />} />
           <Route path="login" element={<Loginpage />} />
           <Route path="supplier" element={<Supplier />} />
-          <Route path="PickupStatus" element={<PickupStatus />} />
+          <Route path="pickup" element={<PickupStatus />} />
+          <Route path="Selectitem" element={<Selectitem />} />
+          <Route path="Paper" element={<Selectitem />} />
+
+
        
         </Route>
         
