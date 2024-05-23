@@ -1,9 +1,13 @@
 import './userprofile.css'
+import { Container,Col, Row } from 'react-bootstrap'
 
 export default function userprofile() {
   return (
     <div>
-      <div className="user-profile-all">
+      <Container>
+        <Row >
+          <Col>
+          <div className="user-profile-all">
   <div className="user-profile-inside-elements">
     <div className="user-profile-header">
       <h1>My Profile</h1>
@@ -28,6 +32,11 @@ export default function userprofile() {
   </div>
 </div>
 
-    </div>
+    
+          </Col>
+        </Row>
+      </Container>
+      </div>
+      
   )
 }
