@@ -21,7 +21,7 @@ function App() {
           <Route path="login" element={<Loginpage />} />
           <Route path="supplier" element={<Supplier />} />
           <Route path="pickup" element={<PickupStatus />} />
-          <Route path="Selectitem" element={<Selectitem />} />
+          <Route path="Plastic" element={<Selectitem />} />
           <Route path="Paper" element={<Selectitem />} />
 
 
