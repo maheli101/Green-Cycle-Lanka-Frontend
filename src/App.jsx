@@ -4,6 +4,14 @@ import Loginpage from "./pages/Loginpage/Loginpage";
 import MainLayout from "./Layout/MainLayout/MainLayout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Supplier from "./pages/Supplierpage/Supplier";
+
+import PickupStatus from "./pages/Supplierpage/PickupStatus";
+import Selectitem from "./pages/Supplierpage/Selectitem";
+import Paper from "./pages/Supplierpage/Paper";
+
+
+
+
 import YardHomePage from "./pages/Yard/YardHomePage";
 import Pick from "./pages/Yard/Pick";
 import Order from "./pages/Yard/Order";
@@ -22,6 +30,16 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route path="home" element={<Dashboard />} />
+
+          
+        
+          <Route path="pickup" element={<PickupStatus />} />
+          <Route path="Plastic" element={<Selectitem />} />
+          <Route path="Paper" element={<Selectitem />} />
+
+
+       
+
           <Route path="supplier" element={<Supplier />} 
           <Route path="yard" element={<YardHomePage />} />
           <Route path="pick" element={<Pick />} />
@@ -33,6 +51,7 @@ function App() {
          
 
           <Route path="buyer" element={<BuyerSelectionPage />} />
+
 
         </Route>
         <Route path="login" element={<Loginpage />} />
