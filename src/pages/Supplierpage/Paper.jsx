@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import PaperImage from '../../assets/Paper.jpg';
+import PaperImage from '../../assets/SupplierPhotos/Paper.jpg';
 
 function Paper() {
     const [amount, setAmount] = useState('');
