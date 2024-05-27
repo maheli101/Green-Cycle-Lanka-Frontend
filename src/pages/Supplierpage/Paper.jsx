@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import PaperImage from '../../assets/SupplierPhotos/Paper.jpg';
 
 function Paper() {
     const [amount, setAmount] = useState('');
     const [address, setAddress] = useState('');
     const [errors, setErrors] = useState({});
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [showError, setShowError] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,16 +18,24 @@ function Paper() {
             newErrors.amount = 'Amount is required';
         } else if (!/^\d+(\.\d+)?$/.test(amount)) {
             newErrors.amount = 'Amount must be a valid number';
+        } else if (parseFloat(amount) < 10) {
+            newErrors.amount = 'Minimum amount should be 10 kg';
         }
 
         if (!address) {
             newErrors.address = 'Address is required';
+        } else if (address.length < 7) {
+            newErrors.address = 'Address should have at least 7 characters';
         }
 
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
-            alert('Form submitted successfully!');
+            setShowSuccess(true);
+            setShowError(false);
+        } else {
+            setShowSuccess(false);
+            setShowError(true);
         }
     };
 
@@ -77,6 +87,9 @@ function Paper() {
                             onChange={(e) => setAmount(e.target.value)}
                             isInvalid={!!errors.amount}
                         />
+                        <Form.Text className="text-muted">
+                            Minimum amount should be 10 kg.
+                        </Form.Text>
                         <Form.Control.Feedback type="invalid">{errors.amount}</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group controlId="formBasicAddress">
@@ -98,6 +111,8 @@ function Paper() {
                         </Col>
                     </Row>
                 </Form>
+                {showSuccess && <Alert variant="success" className="mt-3">Form submitted successfully!</Alert>}
+                {showError && <Alert variant="danger" className="mt-3">Please fix the errors in the form.</Alert>}
             </div>
         </Container>
     );
