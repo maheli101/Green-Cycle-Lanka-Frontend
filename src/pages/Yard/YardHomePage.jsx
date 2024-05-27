@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import Mahimi from '../../assets/Photos/pic1.jpg';
 
 const YourComponent = () => {
@@ -36,15 +37,21 @@ const YourComponent = () => {
           </div>
           
           <div className="d-flex flex-column align-items-center w-100">
-            <Button className="btn btn-warning text-dark mt-2 mb-2" style={{ fontSize: '20px', width: '80%' }}>
-              Pick-Up Requests
-            </Button>
-            <Button className="btn btn-warning text-dark mt-2 mb-2" style={{ fontSize: '20px', width: '80%' }}>
-              Order Requests
-            </Button>
-            <Button className="btn btn-warning text-dark mt-2 mb-2" style={{ fontSize: '20px', width: '80%' }}>
-              Stock Update
-            </Button>
+            <Link to="/pick" style={{ width: '80%' }}>
+              <Button className="btn btn-warning text-dark mt-2 mb-2" style={{ fontSize: '20px', width: '100%' }}>
+                Pick-Up Requests
+              </Button>
+            </Link>
+            <Link to="/order" style={{ width: '80%' }}>
+              <Button className="btn btn-warning text-dark mt-2 mb-2" style={{ fontSize: '20px', width: '100%' }}>
+                Order Requests
+              </Button>
+            </Link>
+            <Link to="/update" style={{ width: '80%' }}>
+              <Button className="btn btn-warning text-dark mt-2 mb-2" style={{ fontSize: '20px', width: '100%' }}>
+                Stock Update
+              </Button>
+            </Link>
           </div>
         </div>
       </Col>
