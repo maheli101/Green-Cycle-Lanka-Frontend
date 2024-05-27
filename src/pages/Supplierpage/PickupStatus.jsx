@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import RequestImage from '../../assets/Request.jpg';
+import RequestImage from '../../assets/SupplierPhotos/Request.jpg';
 
 function RequestForm() {
   return (

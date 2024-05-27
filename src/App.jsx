@@ -45,7 +45,9 @@ function App() {
 
        
 
+
           <Route path="supplier" element={<Supplier />} 
+
 
           <Route path="yard" element={<YardHomePage />} />
           <Route path="pick" element={<Pick />} />
