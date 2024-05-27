@@ -34,6 +34,8 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route path="home" element={<Dashboard />} />
 
+         
+
           
         
           <Route path="pickup" element={<PickupStatus />} />
@@ -43,7 +45,14 @@ function App() {
 
        
 
+
           <Route path="supplier" element={<Supplier />} />
+
+
+       
+
+
+
           <Route path="yard" element={<YardHomePage />} />
           <Route path="pick" element={<Pick />} />
           <Route path="order" element={<Order />} />

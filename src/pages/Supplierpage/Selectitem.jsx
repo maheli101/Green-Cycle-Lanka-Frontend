@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import RequestImage from '../../assets/Plastic.png';
+import RequestImage from '../../assets/SupplierPhotos/Plastic.png';
 
 function RequestForm() {
   const [amount, setAmount] = useState('');
