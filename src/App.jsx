@@ -46,7 +46,11 @@ function App() {
        
 
 
-          <Route path="supplier" element={<Supplier />} 
+          <Route path="supplier" element={<Supplier />} />
+
+
+       
+
 
 
           <Route path="yard" element={<YardHomePage />} />
