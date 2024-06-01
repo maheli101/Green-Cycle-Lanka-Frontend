@@ -10,6 +10,10 @@ import Supplier from "./pages/Supplierpage/Supplier";
 import PickupStatus from "./pages/Supplierpage/PickupStatus";
 import Selectitem from "./pages/Supplierpage/Selectitem";
 import Paper from "./pages/Supplierpage/Paper";
+import Glass from "./pages/Supplierpage/Glass";
+import Metal from "./pages/Supplierpage/Metal";
+
+
 
 
 
@@ -40,13 +44,13 @@ function App() {
         
           <Route path="pickup" element={<PickupStatus />} />
           <Route path="Plastic" element={<Selectitem />} />
-          <Route path="Paper" element={<Selectitem />} />
-
-
+          <Route path="Paper" element={<Paper/>} />
+          <Route path="Metal" element={<Metal/>} />
+          <Route path="Glass" element={<Glass/>} />
        
 
 
-          <Route path="supplier" element={<Supplier />} 
+          <Route path="supplier" element={<Supplier />} />
 
 
           <Route path="yard" element={<YardHomePage />} />

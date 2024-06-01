@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import RequestImage from '../../assets/SupplierPhotos/Request.jpg';
 
-function RequestForm() {
+function RequestForm() {   
   return (
     <Container
       fluid
