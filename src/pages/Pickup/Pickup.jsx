@@ -33,7 +33,7 @@ const sweepUp = keyframes`
   }
   100% {
     transform: translateY(0);
-  }
+  } 
 `;
 
 // Define the top-to-bottom sweep animation for the button

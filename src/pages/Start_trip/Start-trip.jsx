@@ -3,46 +3,51 @@ import ReactDOMServer from 'react-dom/server';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Container, Typography, Paper, CssBaseline, Button } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { red } from '@mui/material/colors';
+import { red, blue, green } from '@mui/material/colors';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
-const DEFAULT_LATITUDE = 40.7128; // New York City
-const DEFAULT_LONGITUDE = -74.0060;
+const DEFAULT_LOCATIONS = [
+  { latitude: 40.7128, longitude: -74.0060, color: red[500] }, 
+  { latitude: 34.0522, longitude: -118.2437, color: blue[500] }, 
+  { latitude: 41.8781, longitude: -87.6298, color: green[500] },
+];
 
-const iconHTML = ReactDOMServer.renderToString(
-  <LocationOnIcon style={{ color: red[500], fontSize: '40px' }} />
-);
+const createIcon = (color) => {
+  const iconHTML = ReactDOMServer.renderToString(
+    <LocationOnIcon style={{ color, fontSize: '40px' }} />
+  );
 
-const customIcon = L.divIcon({
-  html: iconHTML,
-  className: '',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [0, -41],
-});
+  return L.divIcon({
+    html: iconHTML,
+    className: '',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [0, -41],
+  });
+};
 
 const Start = () => {
-  const [position, setPosition] = useState([DEFAULT_LATITUDE, DEFAULT_LONGITUDE]);
+  const [positions, setPositions] = useState(DEFAULT_LOCATIONS);
 
   useEffect(() => {
-    // Fetch location from the database or use static variables
-    // Example: Fetch location from an API endpoint or set it statically
-    // const fetchLocation = async () => {
+    // Fetch locations from the database or use static variables
+    // Example: Fetch locations from an API endpoint or set them statically
+    // const fetchLocations = async () => {
     //   try {
     //     const response = await fetch('your-api-endpoint');
     //     const data = await response.json();
-    //     setPosition([data.latitude, data.longitude]);
+    //     setPositions(data.locations); // Assuming API returns { locations: [{ latitude, longitude, color }, ...] }
     //   } catch (error) {
-    //     console.error('Error fetching location:', error);
+    //     console.error('Error fetching locations:', error);
     //   }
     // };
 
-    // Uncomment the following line to fetch location when component mounts
-    // fetchLocation();
+    // Uncomment the following line to fetch locations when component mounts
+    // fetchLocations();
 
-    // For demonstration, set position statically
-    // setPosition([DEFAULT_LATITUDE, DEFAULT_LONGITUDE]);
+    // For demonstration, set positions statically
+    // setPositions(DEFAULT_LOCATIONS);
   }, []);
 
   return (
@@ -51,39 +56,45 @@ const Start = () => {
       <Container maxWidth="md" style={styles.container}>
         <Paper elevation={3} style={styles.paper}>
           <Typography variant="h4" align="center" gutterBottom style={styles.heading}>
-            SEE LOCATION
+            SEE LOCATIONS
           </Typography>
           <div style={styles.mapContainer} className="map-animation">
             <MapContainer 
-              center={position} 
-              zoom={13} 
+              center={[DEFAULT_LOCATIONS[0].latitude, DEFAULT_LOCATIONS[0].longitude]} 
+              zoom={4} 
               style={styles.map}
             >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               />
-              <Marker position={position} icon={customIcon}>
-                <Popup>
-                  Location: {position[0]}, {position[1]}
-                </Popup>
-              </Marker>
+              {positions.map((position, index) => (
+                <Marker 
+                  key={index} 
+                  position={[position.latitude, position.longitude]} 
+                  icon={createIcon(position.color)}
+                >
+                  <Popup>
+                    Location: {position.latitude}, {position.longitude}
+                  </Popup>
+                </Marker>
+              ))}
             </MapContainer>
           </div>
         </Paper>
       </Container>
-   <Container className='d-flex row mb-3 mt-4 '>
-    <div className='ml-3 col-4 '> 
-      <Button  variant="contained" style={styles.button}>
-        Back
-        </Button>
-    </div> 
-    <div className='justify-content-center align-content-center col'>
-        <Button variant="contained" style={styles.button} className="button-animation w-50">
-          END TRIP
-        </Button>
-    </div>
-    </Container>
+      <Container className='d-flex row mb-3 mt-3 '>
+        <div className='ml-3 col-4 '> 
+          <Button variant="contained" style={styles.button}>
+            Back
+          </Button>
+        </div> 
+        <div className='justify-content-center align-content-center col'>
+          <Button variant="contained" style={styles.button} className="button-animation w-50">
+            END TRIP
+          </Button>
+        </div>
+      </Container>
       <style jsx global>{`
         @keyframes mapSweep {
           0% {
