@@ -64,7 +64,7 @@ function Paper() {
                 }}
             >
                 <img
-                    src={PaperImage}
+                    src={MetalImage}
                     alt="Request Image"
                     style={{
                         width: '100%',

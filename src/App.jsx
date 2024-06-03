@@ -42,7 +42,7 @@ function App() {
 
           
         
-          <Route path="pickup" element={<PickupStatus />} />
+          <Route path="pickupStatus" element={<PickupStatus />} />
           <Route path="Plastic" element={<Selectitem />} />
           <Route path="Paper" element={<Paper/>} />
           <Route path="Metal" element={<Metal/>} />

@@ -64,7 +64,7 @@ function Paper() {
                 }}
             >
                 <img
-                    src={PaperImage}
+                    src={GlassImage}
                     alt="Request Image"
                     style={{
                         width: '100%',
