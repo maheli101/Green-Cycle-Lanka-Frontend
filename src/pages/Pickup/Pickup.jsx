@@ -112,7 +112,7 @@ const Pickup = () => {
 const styles = {
   container: {
     marginTop: '40px',
-    marginBottom:'10px',
+    marginBottom: '10px',
     paddingBottom: '40px',
     borderRadius: '20px',
     backgroundColor: '#f5f5f5', // Light gray background for the container

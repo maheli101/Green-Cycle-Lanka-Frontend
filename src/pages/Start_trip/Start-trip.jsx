@@ -8,8 +8,8 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
 const DEFAULT_LOCATIONS = [
-  { latitude: 40.7128, longitude: -74.0060, color: red[500] }, 
-  { latitude: 34.0522, longitude: -118.2437, color: blue[500] }, 
+  { latitude: 40.7128, longitude: -74.0060, color: red[500] },
+  { latitude: 34.0522, longitude: -118.2437, color: blue[500] },
   { latitude: 41.8781, longitude: -87.6298, color: green[500] },
 ];
 
@@ -47,7 +47,7 @@ const Start = () => {
     // fetchLocations();
 
     // For demonstration, set positions statically
-    // setPositions(DEFAULT_LOCATIONS);
+    setPositions(DEFAULT_LOCATIONS);
   }, []);
 
   return (
@@ -165,7 +165,6 @@ const styles = {
     fontWeight: 'bold',
     color: '#333',
   },
-
   button: {
     background: 'linear-gradient(to right, #000000, #434343)',
     color: '#fff',
@@ -176,10 +175,6 @@ const styles = {
     fontWeight: 'bold',
     fontSize: '16px',
     transition: 'background 0.3s ease, transform 0.3s ease',
-    '&:hover': {
-      background: 'linear-gradient(to right, #434343, #000000)',
-      transform: 'scale(1.05)',
-    },
   },
 };
 
