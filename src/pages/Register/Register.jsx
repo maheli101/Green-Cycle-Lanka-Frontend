@@ -111,16 +111,7 @@ export default function Register() {
                     </Field>
                   </div>
                   
-                  <div className="custom-reg-infield">
-                    <Field
-                      type="text"
-                      placeholder="Enter Verify Number"
-                      name="Verify"
-                      className={touched.Verify && errors.Verify ? "error" : ""}
-                    />
-                    <ErrorMessage name="Verify" component="small" className="error-message" />
-                  </div>
-
+                  
                   <div className="custom-reg-lastf">
                    <Link to="/login">
                      <button type="submit" className="custom-reg-reg-btn">
