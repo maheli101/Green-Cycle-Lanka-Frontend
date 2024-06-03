@@ -1,188 +1,138 @@
 import React, { useState } from "react";
-import { Col, Row } from "react-bootstrap";
-import "./Register.css";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import registerBCK from "../../assets/registerphotos/Regback.jpeg";
-import { Link, json } from "react-router-dom";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { RegisterValidation } from "./RegisterValidation";
-import axios from 'axios';
-import {post} from '../../Api/Axios.js'
-
-
-
-const initialValues = {
-  name: "djdjd",
-  email: "samhghple@gmail.com",
-  contactNumber: "125453445444",
-  NIC: "566455565655455",
-  password: "123456",
-  type: "Driver",
-};
+import { Link } from "react-router-dom";
+import { post } from "../../Api/Axios.js";
 
 export default function Register() {
-  const [response, setResponse] = useState('No response yet');
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    contactNumber: "",
+    NIC: "",
+    password: "",
+    type: "Driver",
+  });
+  const [response, setResponse] = useState("No response yet");
 
-const submit = async () => {
-     const response = await post('http://localhost:8000/User/postUser',initialValues )
-     console.log(response); 
-     setResponse(response);   
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await post("http://localhost:8000/User/postUser", formData);
+      console.log(response);
+      setResponse(response);
+      // Reset the form after successful submission
+      setFormData({
+        name: "",
+        email: "",
+        contactNumber: "",
+        NIC: "",
+        password: "",
+        type: "Driver",
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
-    <div>
-      <Row style={{ height: "100vh" }}>
-        <Col sm={12} lg={6} md={8}>
-          <div
-            className="photo-hanger-register"
-            style={{
-              width: "85%",
-              margin: "10% 12%",
-              borderRadius: "25px",
-            }}
-          >
-            <img
-              src={registerBCK}
-              alt="Login background"
-              style={{ width: "100%", borderRadius: "25px" }}
-            />
-          </div>
+    <Container fluid className="vh-100 d-flex align-items-center justify-content-center">
+      <Row>
+        <Col md={6}>
+          <img
+            src={registerBCK}
+            alt="Register Background"
+            className="img-fluid rounded"
+          />
         </Col>
-        <Col lg={6} md={8} sm={12}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={RegisterValidation}
-            // onSubmit={handleSubmit}
-          >
-            {({ errors, touched, handleChange, values }) => (
-              <Form className="custom-reg-full">
-                <div className="custom-reg-allparts">
-                  <div className="custom-reg-head">
-                    <div className="custom-reg-hair">
-                      <h1 className="custom-reg-word">Register Form</h1>
-                    </div>
-                  </div>
+        <Col md={6}>
+          <Form onSubmit={handleSubmit}>
+            <h1 className="mb-4">Register Form</h1>
+            <Form.Group controlId="formName" className="mb-3">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-                  <div className="custom-reg-infield">
-                    <Field
-                      type="text"
-                      placeholder="Enter Name"
-                      name="Name"
-                      value={values.Name}
-                      onChange={handleChange}
-                      className={touched.Name && errors.Name ? "error" : ""}
-                    />
-                    <ErrorMessage
-                      name="Name"
-                      component="small"
-                      className="error-message"
-                    />
+            <Form.Group controlId="formEmail" className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter Email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-                    <Field
-                      type="text"
-                      placeholder="Enter Email"
-                      name="Email"
-                      value={values.Email}
-                      onChange={handleChange}
-                      className={touched.Email && errors.Email ? "error" : ""}
-                    />
-                    <ErrorMessage
-                      name="Email"
-                      component="small"
-                      className="error-message"
-                    />
+            <Form.Group controlId="formContactNumber" className="mb-3">
+              <Form.Label>Contact Number</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Contact Number"
+                name="contactNumber"
+                value={formData.contactNumber}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-                    <Field
-                      type="text"
-                      placeholder="Contact Number"
-                      name="Number"
-                      value={values.Number}
-                      onChange={handleChange}
-                      className={touched.Number && errors.Number ? "error" : ""}
-                    />
-                    <ErrorMessage
-                      name="Number"
-                      component="small"
-                      className="error-message"
-                    />
+            <Form.Group controlId="formNIC" className="mb-3">
+              <Form.Label>NIC</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="NIC"
+                name="NIC"
+                value={formData.NIC}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-                    <Field
-                      type="text"
-                      placeholder="NIC"
-                      name="IDcard"
-                      value={values.IDcard}
-                      onChange={handleChange}
-                      className={touched.IDcard && errors.IDcard ? "error" : ""}
-                    />
-                    <ErrorMessage
-                      name="IDcard"
-                      component="small"
-                      className="error-message"
-                    />
+            <Form.Group controlId="formPassword" className="mb-3">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-                    <Field
-                      type="password"
-                      placeholder="Password"
-                      name="Pwd"
-                      value={values.Pwd}
-                      onChange={handleChange}
-                      className={touched.Pwd && errors.Pwd ? "error" : ""}
-                    />
-                    <ErrorMessage
-                      name="Pwd"
-                      component="small"
-                      className="error-message"
-                    />
+            <Form.Group controlId="formUserType" className="mb-4">
+              <Form.Label>User Type</Form.Label>
+              <Form.Select
+                name="type"
+                value={formData.type}
+                onChange={handleChange}
+              >
+                <option value="Driver">Driver</option>
+                <option value="User">User</option>
+              </Form.Select>
+            </Form.Group>
 
-                    <Field
-                      type="password"
-                      placeholder="Repeat Password"
-                      name="CPwd"
-                      value={values.CPwd}
-                      onChange={handleChange}
-                      className={touched.CPwd && errors.CPwd ? "error" : ""}
-                    />
-                    <ErrorMessage
-                      name="CPwd"
-                      component="small"
-                      className="error-message"
-                    />
-                  </div>
-
-                  <div className="custom-reg-dropdown">
-                    <label htmlFor="userType">Choose Your Type:</label>
-                    <Field
-                      as="select"
-                      id="userType"
-                      name="userType"
-                      value={values.userType}
-                      onChange={handleChange}
-                    >
-                      <option value="driver">Driver</option>
-                      <option value="buyer">User</option>
-                    </Field>
-                  </div>
-
-                  <div className="custom-reg-lastf">
-                    <button
-                      onClick={submit}
-                      type="submit"
-                      className="custom-reg-reg-btn"
-                    >
-                      Register
-                    </button>
-                    <div className="custom-reg-sign-reg">
-                      <p>
-                        Already have an account?{" "}
-                        <Link to="/login">Sign in</Link>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </Form>
-            )}
-          </Formik>
+            <Button type="submit" variant="primary" className="me-3">
+              Register
+            </Button>
+            <Link to="/login" className="text-decoration-none">
+              Already have an account? Sign in
+            </Link>
+          </Form>
         </Col>
       </Row>
-    </div>
+    </Container>
   );
 }
