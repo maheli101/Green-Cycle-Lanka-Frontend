@@ -65,9 +65,11 @@ function ContainerFluidExample() {
           </button>
         </Col>
         <Col xs={6} sm={3} >
+          
           <button style={buttonStyle} onClick={() => alert("Category 4 clicked!")}>
             <img src={categoryImg4} alt="Category 4" style={imageStyle} />
           </button>
+          
         </Col>
       </Row>
     </Container>
