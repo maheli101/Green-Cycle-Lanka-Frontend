@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import RequestImage from '../../assets/SupplierPhotos/Request.jpg';
 
-function RequestForm() {   
+function RequestForm() {
   return (
     <Container
       fluid
@@ -10,9 +10,9 @@ function RequestForm() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: 'calc(100vh - 50px)', 
+        minHeight: 'calc(100vh - 50px)',
         padding: '20px',
-        backgroundColor: '#f8f9fa', 
+        backgroundColor: '#f8f9fa',
       }}
     >
       <div
@@ -21,10 +21,10 @@ function RequestForm() {
           padding: '30px',
           borderRadius: '8px',
           textAlign: 'left',
-          maxWidth: '700px', 
+          maxWidth: '700px',
           width: '100%',
-          backgroundColor: '#fff', 
-          boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)', 
+          backgroundColor: '#fff',
+          boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
         }}
       >
         <img
@@ -32,7 +32,7 @@ function RequestForm() {
           alt="Request Image"
           style={{
             width: '100%',
-            maxWidth: '150px', 
+            maxWidth: '150px',
             objectFit: 'cover',
             marginBottom: '30px',
             display: 'block',
@@ -69,18 +69,19 @@ function RequestForm() {
           <p style={{ textAlign: 'center', marginBottom: '30px' }}>
             View Pickup Request Details In Your User Account
           </p>
-          <Row className="justify-content-center">
-            <Col xs={6} md={4}>
-              <Button variant="primary" className="rounded-pill w-100 mb-3 mb-md-0">
-                Go To User Account
-              </Button>
-            </Col>
-            <Col xs={6} md={4}>
-              <Button variant="success" className="rounded-pill w-100">
-                Ok
-              </Button>
-            </Col>
-          </Row>
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <Button variant="primary" className="rounded-pill mb-3 w-50">
+              Go To User Account
+            </Button>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <Button variant="success" className="rounded-pill w-25 mb-2 me-2">
+              Edit
+            </Button>
+            <Button variant="success" className="rounded-pill w-25 mb-2">
+              Ok
+            </Button>
+          </div>
         </Form>
       </div>
     </Container>

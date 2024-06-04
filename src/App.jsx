@@ -3,6 +3,7 @@ import Loginpage from "./pages/Loginpage/Loginpage";
 import MainLayout from "./Layout/MainLayout/MainLayout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Supplier from "./pages/Supplierpage/Supplier";
+import EditStatus from "./pages/Supplierpage/EditStatus";
 
 
 
@@ -41,7 +42,7 @@ function App() {
          
 
           
-        
+          <Route path="EditStatus" element={<EditStatus />} />
           <Route path="pickupStatus" element={<PickupStatus />} />
           <Route path="Plastic" element={<Selectitem />} />
           <Route path="Paper" element={<Paper/>} />
