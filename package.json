@@ -18,12 +18,13 @@
     "animate.css": "^4.1.1",
     "axios": "^1.7.1",
     "bootstrap": "^5.3.3",
-
     "formik": "^2.4.6",
+    "leaflet": "^1.9.4",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.51.4",
+    "react-leaflet": "^4.2.1",
     "react-router-dom": "^6.23.1",
     "save": "^2.9.0",
     "yup": "^1.4.0"
