@@ -8,9 +8,8 @@ import { Star } from "@mui/icons-material";
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
-
-
 import Supplier from "./pages/Supplierpage/Supplier";
+import EditStatus from "./pages/Supplierpage/EditStatus";
 
 
 
@@ -18,6 +17,12 @@ import Supplier from "./pages/Supplierpage/Supplier";
 import PickupStatus from "./pages/Supplierpage/PickupStatus";
 import Selectitem from "./pages/Supplierpage/Selectitem";
 import Paper from "./pages/Supplierpage/Paper";
+import Glass from "./pages/Supplierpage/Glass";
+import Metal from "./pages/Supplierpage/Metal";
+import axios from "axios";
+
+
+
 
 
 
@@ -33,7 +38,14 @@ import Vehicleregister from "./pages/Vehicleregister/Vehicleregister";
 import User from "./pages/userProfile/userprofile";
 
 import BuyerSelectionPage from "./pages/Buyer/BuyerSelectionPage";
+import BuyerForm from "./pages/Buyer/BuyerForm";
+
+
 import AboutUsPage from "./pages/AboutUs/AboutUsPage";
+import RequestForm from "./pages/Supplierpage/RequestForm";
+import MyProfile from "./pages/MyProfile";
+import UserOrders from "./pages/UserOrders";
+import UserPickups from "./pages/UserPickups";
 
 import Pickup from "./pages/Pickup/Main-pickup";
 import Start from "./pages/Start_trip/Start-trip";
@@ -44,14 +56,14 @@ import End from "./pages/driver_end/Driver-end";
 
 
 function App() {
+
+  axios.defaults.baseURL = "http://localhost:8000";
+
   return (
-    
-    
     <Router>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
+        <Route path="/" element={<MainLayout />}
           <Route path="home" element={<Dashboard />} />
-
           <Route path="Pickup" element={<Pickup />}/>
           <Route path="Start" element={<Start />}/>
           <Route path="Welcome" element={<Welcome />}/>
@@ -62,23 +74,23 @@ function App() {
         
 
 
+          <Route path="/home" element={<Dashboard />} />
+>>>>>>> c23345e5bb59a4ca955ee8d045a40bc300267c7b
+
          
 
-          
-        
-          <Route path="pickup" element={<PickupStatus />} />
-          <Route path="Plastic" element={<Selectitem />} />
-          <Route path="Paper" element={<Selectitem />} />
-
-
-       
-
-
           <Route path="supplier" element={<Supplier />} />
-
-
+          <Route path="EditStatus" element={<EditStatus />} />
+          <Route path="pickupStatus" element={<PickupStatus />} />
+          <Route path="Plastic" element={<Selectitem />} />
+          <Route path="Paper" element={<Paper/>} />
+          <Route path="Metal" element={<Metal/>} />
+          <Route path="Glass" element={<Glass/>} />
+          
        
 
+
+          
 
 
           <Route path="yard" element={<YardHomePage />} />
@@ -93,7 +105,13 @@ function App() {
 
           <Route path="aboutus" element={<AboutUsPage />} />
 
+          <Route path="buyerForm" element={<BuyerForm />} />
+          <Route path="RequestForm" element={<RequestForm />} />
 
+
+          <Route path="profile" element={<MyProfile />} />
+          <Route path="userorder" element={<UserOrders />} />
+          <Route path="userpickup" element={<UserPickups />} />
 
 
 
@@ -103,7 +121,6 @@ function App() {
         <Route path="vehicle" element={<Vehicleregister />} />
       </Routes>
     </Router>
-  
   );
 }
 
