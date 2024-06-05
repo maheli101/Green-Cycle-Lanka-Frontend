@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -98,8 +99,12 @@ const MyProfile = () => {
           <UserInfo><strong>Phone Number:</strong> {user.phone}</UserInfo>
         </UserInfoBox>
         <ButtonContainer>
+        <Link to="/userpickup">
           <Button className='Pickup'>View Pickup Request</Button>
+          </Link>
+          <Link to="/userorder">
           <Button className='Order'>View Order Request</Button>
+          </Link>
         </ButtonContainer>
       </ProfileBox>
       <EditButton>Edit Profile</EditButton>
