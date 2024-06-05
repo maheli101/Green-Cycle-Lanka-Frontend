@@ -7,6 +7,7 @@ import categoryImg1 from '../../assets/img/categoryImg1.jpg'; // Import category
 import categoryImg2 from '../../assets/img/categoryImg2.jpg';
 import categoryImg3 from '../../assets/img/categoryImg3.jpg';
 import categoryImg4 from '../../assets/img/categoryImg4.jpg';
+import { Link } from "react-router-dom";
 
 function ContainerFluidExample() {
   const sectionStyle = {
@@ -50,25 +51,32 @@ function ContainerFluidExample() {
 
       <Row className="mt-4 justify-content-center">
         <Col xs={6} sm={3} >
+        <Link to="/paper">
           <button style={buttonStyle} onClick={() => alert("Category 1 clicked!")}>
             <img src={categoryImg1} alt="Category 1" style={imageStyle} />
           </button>
+          </Link>
         </Col>
         <Col xs={6} sm={3} >
+        <Link to="/Metal">
           <button style={buttonStyle} onClick={() => alert("Category 2 clicked!")}>
             <img src={categoryImg2} alt="Category 2" style={imageStyle} />
           </button>
+          </Link>
         </Col>
         <Col xs={6} sm={3} >
+        <Link to="/Glass">
           <button style={buttonStyle} onClick={() => alert("Category 3 clicked!")}>
             <img src={categoryImg3} alt="Category 3" style={imageStyle} />
           </button>
+          </Link>
         </Col>
         <Col xs={6} sm={3} >
-          
+        <Link to="/Plastic">
           <button style={buttonStyle} onClick={() => alert("Category 4 clicked!")}>
             <img src={categoryImg4} alt="Category 4" style={imageStyle} />
           </button>
+          </Link>
           
         </Col>
       </Row>
