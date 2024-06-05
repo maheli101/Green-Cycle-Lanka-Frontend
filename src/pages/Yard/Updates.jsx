@@ -16,7 +16,7 @@ function Updates() {
             Stock Update
           </h3>
           <h6 style={{ fontStyle: "oblique", margin: "5%" }}>
-            Welcome to the Updates page! Here, you'll find the latest stock
+            Welcome to the Updates page!. Here, You will find the latest stock
             levels for recyclable materials like plastics, glass, paper, and
             metals. Our progress bars provide a quick visual of current stock
             percentages, helping you stay informed and make decisions easily.

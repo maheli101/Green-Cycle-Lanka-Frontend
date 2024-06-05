@@ -59,7 +59,7 @@ function Paper() {
                     textAlign: 'left',
                     maxWidth: '700px',
                     width: '100%',
-                    backgroundColor: '#fff',
+                    backgroundColor: '#00fff',
                     boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
                 }}
             >
