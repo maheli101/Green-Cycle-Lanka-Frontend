@@ -4,7 +4,7 @@ import axios from "axios";
 const post = async (url, data) => {
     try {
         const response = await axios.post(url, data, {
-            headers: { "Content-Type": "application/json" }
+           
         });
         console.log("Successfully", response.data);
         return response.data;

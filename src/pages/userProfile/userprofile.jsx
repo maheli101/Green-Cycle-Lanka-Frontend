@@ -1,31 +1,20 @@
 import "./userprofile.css";
-import { Container, Col, Row } from "react-bootstrap";
-import { get } from "../../Api/Axios.js";
-import { useEffect, useState } from "react";
+import { Container, Col, Row, Form, Button } from "react-bootstrap";
+//import { get } from "../../Api/Axios.js";
+
 
 export default function userprofile() {
-  const [userData, setUserData] = useState([]);
-  const [edit, setEdit] = useState(false);
+  
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await get("http://localhost:8000/User/getUser");
-        setUserData(response);
-        console.log(response[0]?.name);
-      } catch (error) {
-        console.error(error);
-      }
-    };
 
-    fetchData();
-  }, []);
-
-  const firstUser = userData.length > 0 ? userData[0] : null;
+  
+  
 
   return (
     <div>
       <Container>
+
+       
         <Row>
           <Col>
             <div className="user-profile-all">
@@ -34,42 +23,64 @@ export default function userprofile() {
                   <h1>My Profile</h1>
                 </div>
 
-                <div className="user-profile-all-letters">
-                  <div className="user-pro-letters">
-                    <input
-                      type="text"
-                      placeholder="First Name"
-                      value={!edit ? firstUser?.name : undefined}
-                      defaultValue={edit ? undefined : firstUser?.email}
-                      required
-                    />
-                    <input
-                      type="text"
-                      placeholder="Last Name"
-                      value={firstUser?.email}
-                      required
-                    />
-                    <input type="email" placeholder="Email" required />
-                    <input type="text" placeholder="Phone Number" required />
-                    <input type="password" placeholder="password" required />
-                    <input
-                      type="password"
-                      placeholder="New-password"
-                      required
-                    />
-                    <input
-                      type="password"
-                      placeholder="confirm-password"
-                      required
-                    />
-                  </div>
+                <Form  className="user-profile-form">
+            <div className="user-profile-all-letters">
+                <div className="user-pro-letters">
+                    <Form.Group as={Row} controlId="formFirstName">
+                        <Form.Label column sm={2}> Name</Form.Label>
+                        <Col sm={10}>
+                            <Form.Control
+                                type="text"
+                                placeholder=" Name"
+                                name="Name"
+                                
+                                
+                            />
+                        </Col>
+                    </Form.Group>
+
+                    
+
+                    <Form.Group as={Row} controlId="formEmail">
+                        <Form.Label column sm={2}>Email</Form.Label>
+                        <Col sm={10}>
+                            <Form.Control
+                                type="email"
+                                placeholder="Email"
+                                name="email"
+                               
+                               
+                            />
+                        </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row} controlId="formPhoneNumber">
+                        <Form.Label column sm={2}>Phone Number</Form.Label>
+                        <Col sm={10}>
+                            <Form.Control
+                                type="text"
+                                placeholder="Phone Number"
+                                name="phoneNumber"
+                              
+                               
+                            />
+                        </Col>
+                    </Form.Group>
+
+                    
+
+                  
+
+                    
+
+                   
                 </div>
+            </div>
+        </Form>
 
                 <div className="user-pro-btnsection">
-                  <button
-                    onClick={() => {
-                      setEdit(true);
-                    }}
+                  <Button
+                
                     className="save-btn-pro"
                     type="submit"
                     style={{
@@ -82,7 +93,7 @@ export default function userprofile() {
                     }}
                   >
                     Edit
-                  </button>
+                  </Button>
                   <button
                     className="cansel-btn-pro"
                     type="submit"
