@@ -36,6 +36,7 @@ import BuyerForm from "./pages/Buyer/BuyerForm";
 
 import AboutUsPage from "./pages/AboutUs/AboutUsPage";
 import RequestForm from "./pages/Supplierpage/RequestForm";
+import MyProfile from "./pages/MyProfile";
 
 function App() {
   return (
@@ -76,7 +77,7 @@ function App() {
           <Route path="RequestForm" element={<RequestForm />} />
 
 
-
+          <Route path="profile" element={<MyProfile />} />
 
 
 
