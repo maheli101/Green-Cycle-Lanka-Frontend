@@ -61,6 +61,7 @@ function Welcome() {
             <h2 className="h5 text-white">Green Cycle Lanka Team</h2>
           </div>
           <div className="text-center">
+            
             <Link to='/Pickup'> <Button className="btn-success welcome-button">Get Started</Button></Link>         
              </div>
         </Col>

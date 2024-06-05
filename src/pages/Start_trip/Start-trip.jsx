@@ -6,6 +6,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { red, blue, green } from '@mui/material/colors';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { Link } from 'react-router-dom';
 
 const DEFAULT_LOCATIONS = [
   { latitude: 40.7128, longitude: -74.0060, color: red[500] },
@@ -86,15 +87,26 @@ const Start = () => {
       </Container>
       <Container>
         <Grid container spacing={3} alignItems="center" justifyContent="center" style={styles.buttonContainer}>
-          <Grid item xs={12} sm={4} md={3}>
-            <Button variant="contained" style={styles.button}>
-              Back
-            </Button>
-          </Grid>
           <Grid item xs={12} sm={8} md={6}>
-            <Button variant="contained" style={styles.button} className="button-animation w-100">
-              END TRIP
-            </Button>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={6}>
+                <Button variant="contained" style={styles.button} className="button-animation" fullWidth>
+                  END TRIP
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Button variant="contained" style={styles.button} className="button-animation" fullWidth>
+                  PICKED UP
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sm={4} md={3}>
+            <Link to='/Pickup'>
+              <Button variant="contained" style={styles.button} fullWidth>
+                Back
+              </Button>
+            </Link>
           </Grid>
         </Grid>
       </Container>

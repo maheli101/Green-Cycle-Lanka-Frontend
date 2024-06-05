@@ -2,11 +2,10 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Loginpage from "./pages/Loginpage/Loginpage";
 import MainLayout from "./Layout/MainLayout/MainLayout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Pickup from "./pages/Pickup/Main-pickup";
-import Start from "./pages/Start_trip/Start-trip"
+
 import { LoadScript } from '@react-google-maps/api';
 import { Star } from "@mui/icons-material";
-import Welcome from "./pages/welcome-driver/welcome-driver";
+
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -36,6 +35,13 @@ import User from "./pages/userProfile/userprofile";
 import BuyerSelectionPage from "./pages/Buyer/BuyerSelectionPage";
 import AboutUsPage from "./pages/AboutUs/AboutUsPage";
 
+import Pickup from "./pages/Pickup/Main-pickup";
+import Start from "./pages/Start_trip/Start-trip";
+import Welcome from "./pages/welcome-driver/welcome-driver";
+import Driver_admin from "./pages/driver_admin/driver_admin";
+import End from "./pages/driver_end/Driver-end";
+
+
 
 function App() {
   return (
@@ -49,6 +55,8 @@ function App() {
           <Route path="Pickup" element={<Pickup />}/>
           <Route path="Start" element={<Start />}/>
           <Route path="Welcome" element={<Welcome />}/>
+          <Route path="Driver_admin" element={<Driver_admin />}/>
+          <Route path="End" element={<End />}/>
 
 
         
