@@ -1,32 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { Container, Typography, Button, Paper, CssBaseline } from '@mui/material';
+import { Container, Typography, Button, Paper, CssBaseline, Grid } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { red } from '@mui/material/colors';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { keyframes } from '@emotion/react';
 
-// Constants for latitude and longitude (replace with actual values)
 const DEFAULT_LATITUDE = 40.7128; // New York City
 const DEFAULT_LONGITUDE = -74.0060;
 
-// Convert the MUI LocationOn icon to an HTML string
 const iconHTML = ReactDOMServer.renderToString(
   <LocationOnIcon style={{ color: red[500], fontSize: '40px' }} />
 );
 
-// Create a custom icon using Leaflet's divIcon
 const customIcon = L.divIcon({
   html: iconHTML,
-  className: '', // Set to an empty string to avoid the default Leaflet marker styling
-  iconSize: [25, 41], // Set the size of the icon if needed
-  iconAnchor: [12, 41], // Anchor the icon appropriately
-  popupAnchor: [0, -41], // Position the popup appropriately
+  className: '',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [0, -41],
 });
 
-// Define the bottom-to-top sweep animation
 const sweepUp = keyframes`
   0% {
     transform: translateY(100%);
@@ -36,7 +32,6 @@ const sweepUp = keyframes`
   } 
 `;
 
-// Define the top-to-bottom sweep animation for the button
 const sweepDown = keyframes`
   0% {
     transform: translateY(-100%);
@@ -69,10 +64,14 @@ const Pickup = () => {
     // setPosition([DEFAULT_LATITUDE, DEFAULT_LONGITUDE]);
   }, []);
 
+  const handleMapClick = (e) => {
+    setPosition([e.latlng.lat, e.latlng.lng]);
+  };
+
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="md" style={styles.container}>
+      <Container maxWidth="lg" style={styles.container}>
         <Paper elevation={3} style={styles.paper}>
           <Typography variant="h4" align="center" gutterBottom style={styles.heading}>
             Pickup Request
@@ -82,6 +81,7 @@ const Pickup = () => {
               center={position} 
               zoom={13} 
               style={styles.map}
+              onClick={handleMapClick}
             >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -94,17 +94,51 @@ const Pickup = () => {
               </Marker>
             </MapContainer>
           </div>
-          <div style={styles.buttonContainer}>
-            <Button
-              variant="contained"
-              style={styles.button}
-              sx={{ '&:hover': { backgroundColor: '#006400' } }} // Dark green background on hover
-            >
-              Start Ride
-            </Button>
-          </div>
+          <Grid container justifyContent="center" style={styles.buttonContainer}>
+            <Grid item xs={12} sm={6} md={4}>
+              <Button
+                variant="contained"
+                fullWidth
+                style={styles.button}
+                sx={{ '&:hover': { backgroundColor: '#006400' } }}
+              >
+                Start Ride
+              </Button>
+            </Grid>
+          </Grid>
         </Paper>
       </Container>
+      <style jsx global>{`
+        @keyframes mapSweep {
+          0% {
+            opacity: 0;
+            transform: translateY(100%);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes buttonZoomIn {
+          0% {
+            opacity: 0;
+            transform: scale(0.5);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        .map-animation {
+          animation: mapSweep 1s ease-out forwards;
+        }
+
+        .button-animation {
+          animation: buttonZoomIn 0.5s ease-out forwards;
+        }
+      `}</style>
     </>
   );
 };
@@ -115,43 +149,40 @@ const styles = {
     marginBottom: '10px',
     paddingBottom: '40px',
     borderRadius: '20px',
-    backgroundColor: '#f5f5f5', // Light gray background for the container
+    backgroundColor: '#f5f5f5',
   },
   paper: {
     padding: '20px',
     borderRadius: '20px',
-    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)', // Soft shadow for a modern look
-    backgroundColor: '#ffffff', // White background for the paper
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#ffffff',
   },
   mapContainer: {
     marginBottom: '20px',
-    borderRadius: '20px', // Increased border radius
+    borderRadius: '20px',
     overflow: 'hidden',
-    height: '300px', // Increased map height
-    animation: `${sweepUp} 1s ease-out`, // Apply the bottom-to-top sweep animation
+    height: '300px',
+    animation: `${sweepUp} 1s ease-out`,
   },
   map: {
-    height: '100%', // Adjusted map height
+    height: '100%',
     width: '100%',
   },
   buttonContainer: {
-    display: 'flex',
-    justifyContent: 'center',
+    marginTop: '20px',
   },
   button: {
     backgroundColor: 'black',
     color: 'white',
-    width: '200px', // Adjusted button width
     padding: '10px',
-    marginTop: '20px',
     borderRadius: '25px',
-    boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0.2)', // Softer shadow for the button
-    fontSize: '16px', // Font size for the button
-    animation: `${sweepDown} 2s ease-out`, // Apply the top-to-bottom sweep animation
+    boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0.2)',
+    fontSize: '16px',
+    animation: `${sweepDown} 2s ease-out`,
   },
   heading: {
     fontWeight: 'bold',
-    color: '#333', // Dark gray color for the heading
+    color: '#333',
   },
 };
 

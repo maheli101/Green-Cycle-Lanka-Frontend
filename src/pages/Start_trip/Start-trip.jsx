@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { Container, Typography, Paper, CssBaseline, Button } from '@mui/material';
+import { Container, Typography, Paper, CssBaseline, Button, Grid } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { red, blue, green } from '@mui/material/colors';
 import 'leaflet/dist/leaflet.css';
@@ -29,31 +29,21 @@ const createIcon = (color) => {
 
 const Start = () => {
   const [positions, setPositions] = useState(DEFAULT_LOCATIONS);
+  const [selectedPosition, setSelectedPosition] = useState(null);
 
   useEffect(() => {
     // Fetch locations from the database or use static variables
-    // Example: Fetch locations from an API endpoint or set them statically
-    // const fetchLocations = async () => {
-    //   try {
-    //     const response = await fetch('your-api-endpoint');
-    //     const data = await response.json();
-    //     setPositions(data.locations); // Assuming API returns { locations: [{ latitude, longitude, color }, ...] }
-    //   } catch (error) {
-    //     console.error('Error fetching locations:', error);
-    //   }
-    // };
-
-    // Uncomment the following line to fetch locations when component mounts
-    // fetchLocations();
-
-    // For demonstration, set positions statically
     setPositions(DEFAULT_LOCATIONS);
   }, []);
+
+  const handleMapClick = (e) => {
+    setSelectedPosition({ latitude: e.latlng.lat, longitude: e.latlng.lng });
+  };
 
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="md" style={styles.container}>
+      <Container maxWidth="lg" style={styles.container}>
         <Paper elevation={3} style={styles.paper}>
           <Typography variant="h4" align="center" gutterBottom style={styles.heading}>
             SEE LOCATIONS
@@ -63,6 +53,7 @@ const Start = () => {
               center={[DEFAULT_LOCATIONS[0].latitude, DEFAULT_LOCATIONS[0].longitude]} 
               zoom={4} 
               style={styles.map}
+              onClick={handleMapClick} // Add onClick event handler
             >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -79,21 +70,33 @@ const Start = () => {
                   </Popup>
                 </Marker>
               ))}
+              {selectedPosition && (
+                <Marker 
+                  position={[selectedPosition.latitude, selectedPosition.longitude]} 
+                  icon={createIcon('#000')}
+                >
+                  <Popup>
+                    Selected Location: {selectedPosition.latitude}, {selectedPosition.longitude}
+                  </Popup>
+                </Marker>
+              )}
             </MapContainer>
           </div>
         </Paper>
       </Container>
-      <Container className='d-flex row mb-3 mt-3 '>
-        <div className='ml-3 col-4 '> 
-          <Button variant="contained" style={styles.button}>
-            Back
-          </Button>
-        </div> 
-        <div className='justify-content-center align-content-center col'>
-          <Button variant="contained" style={styles.button} className="button-animation w-50">
-            END TRIP
-          </Button>
-        </div>
+      <Container>
+        <Grid container spacing={3} alignItems="center" justifyContent="center" style={styles.buttonContainer}>
+          <Grid item xs={12} sm={4} md={3}>
+            <Button variant="contained" style={styles.button}>
+              Back
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={8} md={6}>
+            <Button variant="contained" style={styles.button} className="button-animation w-100">
+              END TRIP
+            </Button>
+          </Grid>
+        </Grid>
       </Container>
       <style jsx global>{`
         @keyframes mapSweep {
@@ -165,6 +168,10 @@ const styles = {
     fontWeight: 'bold',
     color: '#333',
   },
+  buttonContainer: {
+    marginTop: '20px',
+    marginBottom: '20px',
+  },
   button: {
     background: 'linear-gradient(to right, #000000, #434343)',
     color: '#fff',
@@ -175,6 +182,7 @@ const styles = {
     fontWeight: 'bold',
     fontSize: '16px',
     transition: 'background 0.3s ease, transform 0.3s ease',
+    width: '100%',
   },
 };
 
