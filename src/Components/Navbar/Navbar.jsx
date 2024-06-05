@@ -27,8 +27,8 @@ function ColorSchemesExample() {
               <Nav.Link style={{ marginRight: "40px" }} href="login">
                 Login
               </Nav.Link>
-              <Nav.Link style={{ marginRight: "40px" }} href="register">
-                Register
+              <Nav.Link style={{ marginRight: "40px" }} href="vehicle">
+                Add Your Vehicle
               </Nav.Link>
               <Nav.Link style={{ marginRight: "40px" }} href="aboutUs">
                 About us

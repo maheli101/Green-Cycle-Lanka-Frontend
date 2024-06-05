@@ -13,6 +13,7 @@ import Selectitem from "./pages/Supplierpage/Selectitem";
 import Paper from "./pages/Supplierpage/Paper";
 import Glass from "./pages/Supplierpage/Glass";
 import Metal from "./pages/Supplierpage/Metal";
+import axios from "axios";
 
 
 
@@ -42,11 +43,14 @@ import UserPickups from "./pages/UserPickups";
 
 
 function App() {
+
+  axios.defaults.baseURL = "http://localhost:8000";
+
   return (
     <Router>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route path="home" element={<Dashboard />} />
+          <Route path="/home" element={<Dashboard />} />
 
          
 
