@@ -20,6 +20,7 @@ import axios from "axios";
 
 
 
+
 import YardHomePage from "./pages/Yard/YardHomePage";
 import Pick from "./pages/Yard/Pick";
 import Order from "./pages/Yard/Order";
@@ -31,7 +32,15 @@ import Vehicleregister from "./pages/Vehicleregister/Vehicleregister";
 import User from "./pages/userProfile/userprofile";
 
 import BuyerSelectionPage from "./pages/Buyer/BuyerSelectionPage";
+import BuyerForm from "./pages/Buyer/BuyerForm";
+
+
 import AboutUsPage from "./pages/AboutUs/AboutUsPage";
+import RequestForm from "./pages/Supplierpage/RequestForm";
+import MyProfile from "./pages/MyProfile";
+import UserOrders from "./pages/UserOrders";
+import UserPickups from "./pages/UserPickups";
+
 
 function App() {
 
@@ -45,17 +54,18 @@ function App() {
 
          
 
-          
+          <Route path="supplier" element={<Supplier />} />
           <Route path="EditStatus" element={<EditStatus />} />
           <Route path="pickupStatus" element={<PickupStatus />} />
           <Route path="Plastic" element={<Selectitem />} />
           <Route path="Paper" element={<Paper/>} />
           <Route path="Metal" element={<Metal/>} />
           <Route path="Glass" element={<Glass/>} />
+          
        
 
 
-          <Route path="supplier" element={<Supplier />} />
+          
 
 
           <Route path="yard" element={<YardHomePage />} />
@@ -70,6 +80,13 @@ function App() {
 
           <Route path="aboutus" element={<AboutUsPage />} />
 
+          <Route path="buyerForm" element={<BuyerForm />} />
+          <Route path="RequestForm" element={<RequestForm />} />
+
+
+          <Route path="profile" element={<MyProfile />} />
+          <Route path="userorder" element={<UserOrders />} />
+          <Route path="userpickup" element={<UserPickups />} />
 
 
 
@@ -83,3 +100,4 @@ function App() {
 }
 
 export default App;
+

@@ -27,6 +27,7 @@
     "react-leaflet": "^4.2.1",
     "react-router-dom": "^6.23.1",
     "save": "^2.9.0",
+    "styled-components": "^6.1.11",
     "yup": "^1.4.0"
   },
   "devDependencies": {
