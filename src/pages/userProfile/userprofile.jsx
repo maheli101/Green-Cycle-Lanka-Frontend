@@ -1,14 +1,7 @@
-
-import "./userprofile.css";
+import React, { useState, useEffect } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
-//import { get } from "../../Api/Axios.js";
-
-
-export default function userprofile() {
- 
-import { Container, Col, Row } from "react-bootstrap";
-import { get } from "../../Api/Axios.js";
-import { useEffect, useState } from "react";
+// import "./userprofile.css";
+// import { get } from "../../Api/Axios.js"; // Uncomment and correct the import path for Axios
 
 export default function UserProfile() {
   const [userData, setUserData] = useState({});
@@ -23,11 +16,8 @@ export default function UserProfile() {
         console.error(error);
       }
     };
-
-
-
-  
-  
+    fetchData();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -40,8 +30,6 @@ export default function UserProfile() {
   return (
     <div>
       <Container>
-
-       
         <Row>
           <Col>
             <div style={styles.userProfileAll}>
@@ -50,178 +38,107 @@ export default function UserProfile() {
                   <h1>User Profile</h1>
                 </div>
 
+                <Form className="user-profile-form">
+                  <Form.Group as={Row} controlId="formFirstName">
+                    <Form.Label column sm={2}>Name</Form.Label>
+                    <Col sm={10}>
+                      <Form.Control
+                        type="text"
+                        placeholder="Name"
+                        name="name"
+                        value={userData.name || ''}
+                        onChange={handleInputChange}
+                        readOnly={!edit}
+                      />
+                    </Col>
+                  </Form.Group>
 
-                <Form  className="user-profile-form">
-            <div className="user-profile-all-letters">
-                <div className="user-pro-letters">
-                    <Form.Group as={Row} controlId="formFirstName">
-                        <Form.Label column sm={2}> Name</Form.Label>
-                        <Col sm={10}>
-                            <Form.Control
-                                type="text"
-                                placeholder=" Name"
-                                name="Name"
-                                
-                                
-                            />
-                        </Col>
-                    </Form.Group>
+                  <Form.Group as={Row} controlId="formEmail">
+                    <Form.Label column sm={2}>Email</Form.Label>
+                    <Col sm={10}>
+                      <Form.Control
+                        type="email"
+                        placeholder="Email"
+                        name="email"
+                        value={userData.email || ''}
+                        onChange={handleInputChange}
+                        readOnly={!edit}
+                      />
+                    </Col>
+                  </Form.Group>
 
-                    
+                  <Form.Group as={Row} controlId="formPhoneNumber">
+                    <Form.Label column sm={2}>Phone Number</Form.Label>
+                    <Col sm={10}>
+                      <Form.Control
+                        type="text"
+                        placeholder="Phone Number"
+                        name="phoneNumber"
+                        value={userData.phoneNumber || ''}
+                        onChange={handleInputChange}
+                        readOnly={!edit}
+                      />
+                    </Col>
+                  </Form.Group>
 
-                    <Form.Group as={Row} controlId="formEmail">
-                        <Form.Label column sm={2}>Email</Form.Label>
-                        <Col sm={10}>
-                            <Form.Control
-                                type="email"
-                                placeholder="Email"
-                                name="email"
-                               
-                               
-                            />
-                        </Col>
-                    </Form.Group>
-
-                    <Form.Group as={Row} controlId="formPhoneNumber">
-                        <Form.Label column sm={2}>Phone Number</Form.Label>
-                        <Col sm={10}>
-                            <Form.Control
-                                type="text"
-                                placeholder="Phone Number"
-                                name="phoneNumber"
-                              
-                               
-                            />
-                        </Col>
-                    </Form.Group>
-
-                    
-
-                  
-
-                    
-
-                   
-
-                <div style={styles.userProfileAllLetters}>
-                  <div style={styles.userProLetters}>
-                    <input
-                      type="text"
-                      name="firstName"
-                      placeholder="First Name"
-                      value={userData.name || ''}
-                      onChange={handleInputChange}
-                      readOnly={!edit}
-                      required
-                      style={styles.input}
-                    />
-                    <input
-                      type="text"
-                      name="lastName"
-                      placeholder="Last Name"
-                      value={userData.email || ''}
-                      onChange={handleInputChange}
-                      readOnly={!edit}
-                      required
-                      style={styles.input}
-                    />
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Email"
-                      value={userData.email || ''}
-                      onChange={handleInputChange}
-                      readOnly={!edit}
-                      required
-                      style={styles.input}
-                    />
-                    <input
-                      type="text"
-                      name="phoneNumber"
-                      placeholder="Phone Number"
-                      value={userData.phoneNumber || ''}
-                      onChange={handleInputChange}
-                      readOnly={!edit}
-                      required
-                      style={styles.input}
-                    />
-                    <input
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      value={userData.password || ''}
-                      onChange={handleInputChange}
-                      readOnly={!edit}
-                      required
-                      style={styles.input}
-                    />
-                    <input
-                      type="password"
-                      name="newPassword"
-                      placeholder="New Password"
-                      required={edit}
-                      style={styles.input}
-                    />
-                    <input
-                      type="password"
-                      name="confirmPassword"
-                      placeholder="Confirm Password"
-                      required={edit}
-                      style={styles.input}
-                    />
-                  </div>
-
-                </div>
-            </div>
-        </Form>
-
-
-                <div className="user-pro-btnsection">
-                  <Button
-                
-                    className="save-btn-pro"
-                    type="submit"
-                    style={{
-                      width: "80px",
-                      height: "50px",
-                      backgroundColor: "rgb(3, 138, 52)",
-                      color: "black",
-                      fontWeight: "bold",
-                      marginRight: "40px",
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  <button
-                    className="cansel-btn-pro"
-                    type="submit"
-                    style={{
-                      border: "2px solid black",
-                      borderRadius: "20px",
-                      width: "90px",
-                      marginLeft: "20px",
-                      backgroundColor: " rgb(137, 186, 226)",
-                    }}
-                  >
-                    Update
-
-                <div style={styles.userProBtnSection}>
-                  <button
-                    onClick={() => setEdit(!edit)}
-                    style={styles.userProBtn}
-                  >
-                    {edit ? "Cancel" : "Edit"}
-
-                  </button>
                   {edit && (
-                    <button
-                      style={styles.userProBtn}
-                      type="submit"
-                    >
-                      Update
-                    </button>
+                    <>
+                      <Form.Group as={Row} controlId="formPassword">
+                        <Form.Label column sm={2}>Password</Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            type="password"
+                            placeholder="Password"
+                            name="password"
+                            value={userData.password || ''}
+                            onChange={handleInputChange}
+                          />
+                        </Col>
+                      </Form.Group>
+
+                      <Form.Group as={Row} controlId="formNewPassword">
+                        <Form.Label column sm={2}>New Password</Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            type="password"
+                            placeholder="New Password"
+                            name="newPassword"
+                            onChange={handleInputChange}
+                          />
+                        </Col>
+                      </Form.Group>
+
+                      <Form.Group as={Row} controlId="formConfirmPassword">
+                        <Form.Label column sm={2}>Confirm Password</Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            type="password"
+                            placeholder="Confirm Password"
+                            name="confirmPassword"
+                            onChange={handleInputChange}
+                          />
+                        </Col>
+                      </Form.Group>
+                    </>
                   )}
-                </div>
+
+                  <div style={styles.userProBtnSection}>
+                    <Button
+                      onClick={() => setEdit(!edit)}
+                      style={styles.userProBtn}
+                    >
+                      {edit ? "Cancel" : "Edit"}
+                    </Button>
+                    {edit && (
+                      <Button
+                        style={styles.userProBtn}
+                        type="submit"
+                      >
+                        Update
+                      </Button>
+                    )}
+                  </div>
+                </Form>
               </div>
             </div>
           </Col>

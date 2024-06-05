@@ -8,6 +8,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { keyframes } from '@emotion/react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const iconHTML = ReactDOMServer.renderToString(
   <LocationOnIcon style={{ color: red[500], fontSize: '40px' }} />
@@ -61,9 +62,27 @@ const Pickup = () => {
     fetchLocations();
   }, []);
 
-  const handleRequestClick = () => {
-    setOpenSnackbar(true);
-  };
+
+const handleRequestClick = async (position) => {
+    console.log(position);
+    try {
+        const response = await axios.post('http://localhost:8000/reqOrder', {
+            user_id:'123',
+            user_name:'supun',
+            order_id:position.orderId,
+        });
+
+        if (response.status !== 201) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        console.log(response.data);
+        setOpenSnackbar(true);
+    } catch (error) {
+        console.error('Error sending request:', error);
+    }
+};
+
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
@@ -95,7 +114,7 @@ const Pickup = () => {
                       <div className="popup-line">Location: {position.latitude}, {position.longitude}</div>
                       <div className="popup-line">Amount: {position.amount}</div>
                       <div className="popup-line">Material: {position.material}</div>
-                      <Button variant="contained" className="popup-button" onClick={handleRequestClick}>
+                      <Button variant="contained" className="popup-button" onClick={() => handleRequestClick(position)}>
                         REQUEST TO JOURNEY
                       </Button>
                     </div>

@@ -62,7 +62,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<MainLayout />}
+        <Route path="/" element={<MainLayout />}>
           <Route path="home" element={<Dashboard />} />
           <Route path="Pickup" element={<Pickup />}/>
           <Route path="Start" element={<Start />}/>
@@ -75,7 +75,7 @@ function App() {
 
 
           <Route path="/home" element={<Dashboard />} />
->>>>>>> c23345e5bb59a4ca955ee8d045a40bc300267c7b
+
 
          
 
