@@ -37,6 +37,9 @@ import BuyerForm from "./pages/Buyer/BuyerForm";
 import AboutUsPage from "./pages/AboutUs/AboutUsPage";
 import RequestForm from "./pages/Supplierpage/RequestForm";
 import MyProfile from "./pages/MyProfile";
+import UserOrders from "./pages/UserOrders";
+import UserPickups from "./pages/UserPickups";
+
 
 function App() {
   return (
@@ -78,6 +81,8 @@ function App() {
 
 
           <Route path="profile" element={<MyProfile />} />
+          <Route path="userorder" element={<UserOrders />} />
+          <Route path="userpickup" element={<UserPickups />} />
 
 
 
