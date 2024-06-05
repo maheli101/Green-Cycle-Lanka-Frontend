@@ -1,77 +1,138 @@
+import React, { useState } from "react";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import registerBCK from "../../assets/registerphotos/Regback.jpeg";
+import { Link } from "react-router-dom";
+import { post } from "../../Api/Axios.js";
 
-import { Col, Row } from 'react-bootstrap'
-import './Register.css'
-import registerBCK from '../../assets/registerphotos/Regback.jpeg'
-import { Link } from 'react-router-dom'
 export default function Register() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    contactNumber: "",
+    NIC: "",
+    password: "",
+    type: "Driver",
+  });
+  const [response, setResponse] = useState("No response yet");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await post("http://localhost:8000/User/postUser", formData);
+      console.log(response);
+      setResponse(response);
+      // Reset the form after successful submission
+      setFormData({
+        name: "",
+        email: "",
+        contactNumber: "",
+        NIC: "",
+        password: "",
+        type: "Driver",
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   return (
-
-
-    <div>
-        <Row style={{height:"100vh"}}>
-        <Col sm={12} lg={6} md={8} >
-          <div
-            className="photo-hanger-register"
-            style={{
-              width: "85%",
-              margin: "10% 12%",
-              borderRadius: "25px",
-            }}
-          >
-            <img
-              src={registerBCK}
-              alt="Login background"
-              style={{ width: "100%", borderRadius: "25px" }}
-            />
-          </div>
+    <Container fluid className="vh-100 d-flex align-items-center justify-content-center">
+      <Row>
+        <Col md={6}>
+          <img
+            src={registerBCK}
+            alt="Register Background"
+            className="img-fluid rounded"
+          />
         </Col>
-            <Col lg={6} md={8} sm={12}>
-            <form action="" className="custom-reg-full">
-     <div className="custom-reg-allparts">
-     <div className="custom-reg-head">
-      <div className="custom-reg-hair">
-        <h1 className="custom-reg-word">Register Form</h1>
-      </div>
-    </div>
+        <Col md={6}>
+          <Form onSubmit={handleSubmit}>
+            <h1 className="mb-4">Register Form</h1>
+            <Form.Group controlId="formName" className="mb-3">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-    <div className="custom-reg-infield">
-      <input type="text" placeholder="Enter Name" required />
-      <input type="text" placeholder="Enter Email" required />
-      <input type="text" placeholder="Contact Number" required />
-      <input type="text" placeholder="NIC" required /> 
-      <input type="password" placeholder="Password" required />
-      <input type="password" placeholder="Repeat Password" required />
-    </div>
+            <Form.Group controlId="formEmail" className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter Email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-    <div className="custom-reg-dropdown">
-      <label htmlFor="userType">Choose Your Type:</label>
-      <select id="userType">
-        <option value="driver">Driver</option>
-        <option value="buyer">User</option>
-    
-      </select>
-    </div>
-    <div className="custom-reg-infield"> 
-      <input type="text" placeholder="Enter Verify Number" required />
-    </div>
+            <Form.Group controlId="formContactNumber" className="mb-3">
+              <Form.Label>Contact Number</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Contact Number"
+                name="contactNumber"
+                value={formData.contactNumber}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-    <div className="custom-reg-lastf">
-      <Link to="/login">
-      <button type="submit" className="custom-reg-reg-btn">Register</button>
-      </Link>
+            <Form.Group controlId="formNIC" className="mb-3">
+              <Form.Label>NIC</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="NIC"
+                name="NIC"
+                value={formData.NIC}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-      <div className="custom-reg-sign-reg">
-        <p>
-          Already have an account? <Link to="/login">Sign in</Link>
-        </p>
-      </div>
-    </div>
-  </div>
-</form>
+            <Form.Group controlId="formPassword" className="mb-3">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-            </Col>
-        </Row>
-       
-    </div>
-  )
+            <Form.Group controlId="formUserType" className="mb-4">
+              <Form.Label>User Type</Form.Label>
+              <Form.Select
+                name="type"
+                value={formData.type}
+                onChange={handleChange}
+              >
+                <option value="Driver">Driver</option>
+                <option value="User">User</option>
+              </Form.Select>
+            </Form.Group>
+
+            <Button type="submit" variant="primary" className="me-3">
+              Register
+            </Button>
+            <Link to="/login" className="text-decoration-none">
+              Already have an account? Sign in
+            </Link>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
+  );
 }

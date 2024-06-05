@@ -7,6 +7,7 @@ import categoryImg1 from '../../assets/img/categoryImg1.jpg'; // Import category
 import categoryImg2 from '../../assets/img/categoryImg2.jpg';
 import categoryImg3 from '../../assets/img/categoryImg3.jpg';
 import categoryImg4 from '../../assets/img/categoryImg4.jpg';
+import { Link } from "react-router-dom";
 
 function ContainerFluidExample() {
   const sectionStyle = {
@@ -32,7 +33,7 @@ function ContainerFluidExample() {
     <Container className="py-5">
       <Row className="mb-4">
         <Col >
-          <h4 style={sectionStyle} className="text-success">Welcome to the Supplier Interface Of Green Cycle Lanka!</h4>
+          <h4 style={sectionStyle} className="text-success">Welcome to the Buyer Interface Of Green Cycle Lanka!</h4>
         </Col>
       </Row>
 
@@ -65,11 +66,11 @@ function ContainerFluidExample() {
           </button>
         </Col>
         <Col xs={6} sm={3} >
-          
+          <Link to={"/buyerForm"}>
           <button style={buttonStyle} onClick={() => alert("Category 4 clicked!")}>
             <img src={categoryImg4} alt="Category 4" style={imageStyle} />
           </button>
-          
+          </Link>
         </Col>
       </Row>
     </Container>
