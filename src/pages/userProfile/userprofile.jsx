@@ -67,14 +67,7 @@ export default function UserProfile() {
                   <h1>User Profile</h1>
                 </div>
 
-                <div>
-                  
-                    <Button>View Pick Up Requests</Button>
-                 
-                 
-                    <Button>View Orders</Button>
-                  
-                </div>
+              
 
                 <Form className="user-profile-form">
                   <div className="user-profile-all-letters">
