@@ -22,8 +22,9 @@ function LoginPage() {
         // Save token to local storage
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data.userId);
+        localStorage.setItem('userName', response.data.Name);
         localStorage.setItem('isDriver', response.data.isDriver);
-
+        console.log(response.data);
        console.log(response.data.token,response.data.userId,response.data.isDriver);
 
         
