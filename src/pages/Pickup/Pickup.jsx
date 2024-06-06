@@ -64,12 +64,15 @@ const Pickup = () => {
 
 
 const handleRequestClick = async (position) => {
-    console.log(position);
+  const id = localStorage.getItem('userId')
+  const name = localStorage.getItem('userName')
+    console.log(id);
     try {
         const response = await axios.post('http://localhost:8000/reqOrder', {
-            user_id:'123',
-            user_name:'supun',
+            user_id:id,
+            user_name:name,
             order_id:position.orderId,
+            town:position.town,
         });
 
         if (response.status !== 201) {
@@ -98,8 +101,8 @@ const handleRequestClick = async (position) => {
           </Typography>
           <div style={styles.mapContainer}>
             <MapContainer 
-              center={[6.0328139, 80.214955]} // Center around one of the locations initially
-              zoom={10} 
+              center={[8.0328139, 80.214955]} // Center around one of the locations initially
+              zoom={6} 
               style={styles.map}
             >
               <TileLayer

@@ -6,13 +6,8 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { red, blue, green } from '@mui/material/colors';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { Link } from 'react-router-dom';
-
-const DEFAULT_LOCATIONS = [
-  { latitude: 40.7128, longitude: -74.0060, color: red[500] },
-  { latitude: 34.0522, longitude: -118.2437, color: blue[500] },
-  { latitude: 41.8781, longitude: -87.6298, color: green[500] },
-];
+import axios from 'axios'; // Import Axios
+import { useNavigate } from 'react-router-dom';
 
 const createIcon = (color) => {
   const iconHTML = ReactDOMServer.renderToString(
@@ -29,16 +24,29 @@ const createIcon = (color) => {
 };
 
 const Start = () => {
-  const [positions, setPositions] = useState(DEFAULT_LOCATIONS);
-  const [selectedPosition, setSelectedPosition] = useState(null);
+  const [positions, setPositions] = useState([]);
+  const id = localStorage.getItem('userId')
+  const navigate = useNavigate();
 
+  const navWelcome = ()=>{
+    navigate('/Welcome')
+  }
   useEffect(() => {
-    // Fetch locations from the database or use static variables
-    setPositions(DEFAULT_LOCATIONS);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/reqOrder/${id}`); 
+        setPositions(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error('Error fetching locations from backend:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleMapClick = (e) => {
-    setSelectedPosition({ latitude: e.latlng.lat, longitude: e.latlng.lng });
+    // Handle map click if needed
   };
 
   return (
@@ -50,11 +58,10 @@ const Start = () => {
             SEE LOCATIONS
           </Typography>
           <div style={styles.mapContainer} className="map-animation">
-            <MapContainer 
-              center={[DEFAULT_LOCATIONS[0].latitude, DEFAULT_LOCATIONS[0].longitude]} 
-              zoom={4} 
+          <MapContainer 
+              center={[8.0328139, 80.214955]} 
+              zoom={6} 
               style={styles.map}
-              onClick={handleMapClick} // Add onClick event handler
             >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -66,21 +73,16 @@ const Start = () => {
                   position={[position.latitude, position.longitude]} 
                   icon={createIcon(position.color)}
                 >
-                  <Popup>
-                    Location: {position.latitude}, {position.longitude}
+                  <Popup className="popup-animation">
+                    <div className="popup-content">
+                    <div className="popup-line">Dirver Name: {position.userName}</div>
+                      <div className="popup-line">Town: {position.town}</div>
+                      <div className="popup-line">Location: {position.latitude}, {position.longitude}</div>
+                      <div className="popup-line">Status: {position.status}</div>
+                    </div>
                   </Popup>
                 </Marker>
               ))}
-              {selectedPosition && (
-                <Marker 
-                  position={[selectedPosition.latitude, selectedPosition.longitude]} 
-                  icon={createIcon('#000')}
-                >
-                  <Popup>
-                    Selected Location: {selectedPosition.latitude}, {selectedPosition.longitude}
-                  </Popup>
-                </Marker>
-              )}
             </MapContainer>
           </div>
         </Paper>
@@ -89,24 +91,12 @@ const Start = () => {
         <Grid container spacing={3} alignItems="center" justifyContent="center" style={styles.buttonContainer}>
           <Grid item xs={12} sm={8} md={6}>
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
-                <Button variant="contained" style={styles.button} className="button-animation" fullWidth>
+              <Grid item xs={12} sm={12}>
+                <Button variant="contained" style={styles.button} className="button-animation" fullWidth onClick={navWelcome}>
                   END TRIP
                 </Button>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <Button variant="contained" style={styles.button} className="button-animation" fullWidth>
-                  PICKED UP
-                </Button>
-              </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={12} sm={4} md={3}>
-            <Link to='/Pickup'>
-              <Button variant="contained" style={styles.button} fullWidth>
-                Back
-              </Button>
-            </Link>
           </Grid>
         </Grid>
       </Container>
@@ -114,16 +104,12 @@ const Start = () => {
         @keyframes mapSweep {
           0% {
             opacity: 0;
-            transform: translateY(-100%);
+            transform: translateY(100%);
           }
           100% {
             opacity: 1;
             transform: translateY(0);
           }
-        }
-
-        .map-animation {
-          animation: mapSweep 1s ease-out forwards;
         }
 
         @keyframes buttonZoomIn {
@@ -137,8 +123,54 @@ const Start = () => {
           }
         }
 
+        @keyframes sweepLine {
+          0% {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .map-animation {
+          animation: mapSweep 1s ease-out forwards;
+        }
+
         .button-animation {
           animation: buttonZoomIn 0.5s ease-out forwards;
+        }
+
+        .popup-animation .popup-content {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .popup-animation .popup-line {
+          animation: sweepLine 0.5s ease-out forwards;
+        }
+
+        .popup-animation .popup-line:nth-child(1) {
+          animation-delay: 0s;
+        }
+
+        .popup-animation .popup-line:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+
+        .popup-animation .popup-line:nth-child(3) {
+          animation-delay: 0.4s;
+        }
+
+        .popup-animation .popup-line:nth-child(4) {
+          animation-delay: 0.6s;
+        }
+
+        .popup-button {
+          margin-top: 10px;
+          animation: sweepLine 0.8s ease-out forwards;
         }
       `}</style>
     </>

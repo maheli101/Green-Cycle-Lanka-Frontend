@@ -4,7 +4,7 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import { Grid } from '@mui/material';
 
-function AdminTable() {
+function Driver_admin() {
     const [requests, setRequests] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -66,7 +66,7 @@ function AdminTable() {
     };
 
     const filteredRequests = requests.filter(request => {
-        return request.orderDetails.town.toLowerCase().includes(searchQuery.toLowerCase());
+        return request.orderDetails && request.orderDetails.town.toLowerCase().includes(searchQuery.toLowerCase());
     });
 
     const generatePDF = () => {
@@ -95,7 +95,7 @@ function AdminTable() {
             <Grid container spacing={2}>
                 <Grid item xs={10}>
                     <input
-                    className='border-1 rounded-3 p-2  px-4'
+                        className='border-1 rounded-3 p-2  px-4'
                         type="text"
                         placeholder="Search by Location"
                         value={searchQuery}
@@ -124,14 +124,14 @@ function AdminTable() {
                         <tr key={request._id}>
                             <td>{++i}</td>
                             <td>{request.user_name}</td>
-                            <td>{request.orderDetails.town}</td>
-                            <td>{request.orderDetails.material}</td>
-                            <td>{request.orderDetails.amount}</td>
+                            <td>{request.orderDetails ? request.orderDetails.town : 'N/A'}</td>
+                            <td>{request.orderDetails ? request.orderDetails.material : 'N/A'}</td>
+                            <td>{request.orderDetails ? request.orderDetails.amount : 'N/A'}</td>
                             <td>{request.status}</td>
                             <td className="d-flex justify-content-center">
                                 <Button
                                     className="btn-success mx-2"
-                                    onClick={() => handleConfirmClick(request._id, request.status, request.orderDetails._id)}
+                                    onClick={() => handleConfirmClick(request._id, request.status, request.orderDetails ? request.orderDetails._id : null)}
                                     disabled={request.status === 'confirmed'}
                                     style={{ marginRight: '5px' }}
                                 >
@@ -153,4 +153,4 @@ function AdminTable() {
     );
 }
 
-export default AdminTable;
+export default Driver_admin;
