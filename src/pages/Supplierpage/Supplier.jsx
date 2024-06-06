@@ -7,7 +7,7 @@ import categoryImg1 from '../../assets/img/categoryImg1.jpg'; // Import category
 import categoryImg2 from '../../assets/img/categoryImg2.jpg';
 import categoryImg3 from '../../assets/img/categoryImg3.jpg';
 import categoryImg4 from '../../assets/img/categoryImg4.jpg';
-import { Link } from "react-router-dom";
+
 
 import { Link } from "react-router-dom";
 
