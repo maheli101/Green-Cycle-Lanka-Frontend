@@ -26,7 +26,9 @@ function LoginPage() {
 
        console.log(response.data.token,response.data.userId,response.data.isDriver);
 
-        
+        if(response.data.isDriver){
+          navigate("/profile");
+        }
         navigate("/home"); // Replace with your desired route
       } else {
         setError(response.data.message);

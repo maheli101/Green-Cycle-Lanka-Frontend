@@ -36,7 +36,7 @@ export default function Vehicleregister() {
       }
     })
     .then(() => {
-      alert("Success");
+      alert("Successfully added vehicle");
     })
     .catch((err) => {
       alert(`Can't connect to back end: ${err}`);
