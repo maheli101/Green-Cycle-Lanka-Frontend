@@ -18,6 +18,18 @@ function RequestForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Validation
+    if (!email.trim() || !town.trim()) {
+      setModalMessage('Please fill out all fields.');
+      setShowModal(true);
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setModalMessage('Please enter a valid email address.');
+      setShowModal(true);
+      return;
+    }
+    // End of Validation
     console.log({ material, amount, town, email }); // Log form data for debugging
     try {
       const response = await axios.post('http://localhost:8000/Request/postRequest', {
@@ -71,7 +83,7 @@ function RequestForm() {
           <Button variant="primary" type="submit" style={{ marginRight: '10px' }}>
             Submit Request
           </Button>
-          <Link to={"/requester"}>
+          <Link to={"/supplier"}>
             <Button variant="secondary">Back</Button>
           </Link>
         </div>
