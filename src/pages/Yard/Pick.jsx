@@ -18,6 +18,16 @@ function Pick() {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8000/Request/deleteRequest/${id}`);
+      // After successful deletion, fetch the updated list of requests
+      fetchRequests();
+    } catch (error) {
+      console.error('Error deleting request:', error);
+    }
+  };
+
   return (
     <>
       <div
@@ -181,6 +191,7 @@ function Pick() {
                       cursor: 'pointer',
                       transition: 'background-color 0.3s ease',
                     }}
+                    onClick={() => handleDelete(request._id)}
                   >
                     Delete
                   </button>

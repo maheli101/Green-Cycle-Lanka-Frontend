@@ -81,7 +81,7 @@ function App() {
           <Route path="aboutus" element={<AboutUsPage />} />
 
           <Route path="buyerForm" element={<BuyerForm />} />
-          <Route path="RequestForm" element={<RequestForm />} />
+          <Route path="requestForm" element={<RequestForm />} />
 
 
           <Route path="profile" element={<MyProfile />} />

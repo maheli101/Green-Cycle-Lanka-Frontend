@@ -42,6 +42,10 @@ function ColorSchemesExample() {
                 id="collasible-nav-dropdown"
               >
                 <NavDropdown.Item href="/user">Profile</NavDropdown.Item>
+
+                <NavDropdown.Item href="#action/3.2">Settings</NavDropdown.Item>
+
+
                 <NavDropdown.Item href="#action/3.3">Logout</NavDropdown.Item>
               </NavDropdown>
             </Nav>
