@@ -13,6 +13,7 @@ import Selectitem from "./pages/Supplierpage/Selectitem";
 import Paper from "./pages/Supplierpage/Paper";
 import Glass from "./pages/Supplierpage/Glass";
 import Metal from "./pages/Supplierpage/Metal";
+import axios from "axios";
 
 
 
@@ -36,13 +37,20 @@ import BuyerForm from "./pages/Buyer/BuyerForm";
 
 import AboutUsPage from "./pages/AboutUs/AboutUsPage";
 import RequestForm from "./pages/Supplierpage/RequestForm";
+import MyProfile from "./pages/MyProfile";
+import UserOrders from "./pages/UserOrders";
+import UserPickups from "./pages/UserPickups";
+
 
 function App() {
+
+  axios.defaults.baseURL = "http://localhost:8000";
+
   return (
     <Router>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route path="home" element={<Dashboard />} />
+          <Route path="/home" element={<Dashboard />} />
 
          
 
@@ -76,7 +84,9 @@ function App() {
           <Route path="requestForm" element={<RequestForm />} />
 
 
-
+          <Route path="profile" element={<MyProfile />} />
+          <Route path="userorder" element={<UserOrders />} />
+          <Route path="userpickup" element={<UserPickups />} />
 
 
 

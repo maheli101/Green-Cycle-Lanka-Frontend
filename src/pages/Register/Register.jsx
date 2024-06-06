@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import registerBCK from "../../assets/registerphotos/Regback.jpeg";
 import { Link } from "react-router-dom";
@@ -11,14 +11,17 @@ export default function Register() {
     contactNumber: "",
     NIC: "",
     password: "",
-    type: "Driver",
+    type: "",
   });
   const [response, setResponse] = useState("No response yet");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await post("http://localhost:8000/User/postUser", formData);
+
+      console.log(formData)
+      
+      const response = await post("http://localhost:8000/user/postUser", formData);   //response ekata link eken wena tika gannawa
       console.log(response);
       setResponse(response);
       // Reset the form after successful submission
@@ -28,9 +31,10 @@ export default function Register() {
         contactNumber: "",
         NIC: "",
         password: "",
-        type: "Driver",
+        type: "",
       });
     } catch (error) {
+      console.log(formData)
       console.error("Error submitting form:", error);
     }
   };
@@ -40,8 +44,11 @@ export default function Register() {
   };
 
   return (
+
+    
     <Container fluid className="vh-100 d-flex align-items-center justify-content-center">
       <Row>
+        
         <Col md={6}>
           <img
             src={registerBCK}

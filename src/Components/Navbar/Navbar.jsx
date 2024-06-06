@@ -27,8 +27,8 @@ function ColorSchemesExample() {
               <Nav.Link style={{ marginRight: "40px" }} href="login">
                 Login
               </Nav.Link>
-              <Nav.Link style={{ marginRight: "40px" }} href="register">
-                Register
+              <Nav.Link style={{ marginRight: "40px" }} href="vehicle">
+                Add Your Vehicle
               </Nav.Link>
               <Nav.Link style={{ marginRight: "40px" }} href="aboutUs">
                 About us
@@ -42,7 +42,10 @@ function ColorSchemesExample() {
                 id="collasible-nav-dropdown"
               >
                 <NavDropdown.Item href="/user">Profile</NavDropdown.Item>
+
                 <NavDropdown.Item href="#action/3.2">Settings</NavDropdown.Item>
+
+
                 <NavDropdown.Item href="#action/3.3">Logout</NavDropdown.Item>
               </NavDropdown>
             </Nav>

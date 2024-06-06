@@ -1,101 +1,134 @@
-import "./userprofile.css";
-import { Container, Col, Row } from "react-bootstrap";
-import { get } from "../../Api/Axios.js";
+import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
-export default function userprofile() {
-  const [userData, setUserData] = useState([]);
+export default function UserProfile() {
+  const [userData, setUserData] = useState({});
   const [edit, setEdit] = useState(false);
 
+  // Fetch user data on component mount
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await get("http://localhost:8000/User/getUser");
-        setUserData(response);
-        console.log(response[0]?.name);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    const token = localStorage.getItem('token');
+    const id = localStorage.getItem('userId');
 
-    fetchData();
+    if (token) {
+      axios.get(`http://localhost:8000/user/getCurrentUser/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then(response => {
+        console.log(response.data);
+        setUserData(response.data); // Set the user data
+      }).catch(error => {
+        console.error('Error fetching user profile:', error);
+      });
+    }
   }, []);
 
-  const firstUser = userData.length > 0 ? userData[0] : null;
+  // Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserData(prevState => ({
+      ...prevState,
+      [name]: value // Update the corresponding field in userData
+    }));
+  };
+
+  // Handle update button click
+  const handleUpdate = async () => {
+    const token = localStorage.getItem('token');
+    const id = localStorage.getItem('userId');
+
+    if (token) {
+      try {
+        const response = await axios.put(`http://localhost:8000/user/updateCurrentUser/${id}`, userData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log('User updated successfully:', response.data);
+        setEdit(false); // Disable edit mode after successful update
+      } catch (error) {
+        console.error('Error updating user profile:', error);
+      }
+    }
+  };
 
   return (
     <div>
       <Container>
         <Row>
           <Col>
-            <div className="user-profile-all">
-              <div className="user-profile-inside-elements">
-                <div className="user-profile-header">
-                  <h1>My Profile</h1>
+            <div style={styles.userProfileAll}>
+              <div style={styles.userProfileInsideElements}>
+                <div style={styles.userProfileHeader}>
+                  <h1>User Profile</h1>
                 </div>
 
-                <div className="user-profile-all-letters">
-                  <div className="user-pro-letters">
-                    <input
-                      type="text"
-                      placeholder="First Name"
-                      value={!edit ? firstUser?.name : undefined}
-                      defaultValue={edit ? undefined : firstUser?.email}
-                      required
-                    />
-                    <input
-                      type="text"
-                      placeholder="Last Name"
-                      value={firstUser?.email}
-                      required
-                    />
-                    <input type="email" placeholder="Email" required />
-                    <input type="text" placeholder="Phone Number" required />
-                    <input type="password" placeholder="password" required />
-                    <input
-                      type="password"
-                      placeholder="New-password"
-                      required
-                    />
-                    <input
-                      type="password"
-                      placeholder="confirm-password"
-                      required
-                    />
+                <Form className="user-profile-form">
+                  <div className="user-profile-all-letters">
+                    <div className="user-pro-letters">
+                      <Form.Group as={Row} controlId="formFirstName">
+                        <Form.Label column sm={2}>Name</Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            type="text"
+                            placeholder="Name"
+                            name="name"
+                            value={userData.name || ''}
+                            readOnly={!edit} // Make the field editable only if edit mode is enabled
+                            onChange={handleInputChange}
+                          />
+                        </Col>
+                      </Form.Group>
+
+                      <Form.Group as={Row} controlId="formEmail">
+                        <Form.Label column sm={2}>Email</Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            type="email"
+                            placeholder="Email"
+                            name="email"
+                            value={userData.email || ''}
+                            readOnly={!edit}
+                            onChange={handleInputChange}
+                          />
+                        </Col>
+                      </Form.Group>
+
+                      <Form.Group as={Row} controlId="formPhoneNumber">
+                        <Form.Label column sm={2}>Phone Number</Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            type="text"
+                            placeholder="Phone Number"
+                            name="contactNumber"
+                            value={userData.contactNumber || ''}
+                            readOnly={!edit}
+                            onChange={handleInputChange}
+                          />
+                        </Col>
+                      </Form.Group>
+                    </div>
                   </div>
-                </div>
+                </Form>
 
-                <div className="user-pro-btnsection">
-                  <button
-                    onClick={() => {
-                      setEdit(true);
-                    }}
-                    className="save-btn-pro"
-                    type="submit"
-                    style={{
-                      width: "80px",
-                      height: "50px",
-                      backgroundColor: "rgb(3, 138, 52)",
-                      color: "black",
-                      fontWeight: "bold",
-                      marginRight: "40px",
-                    }}
+                <div style={styles.userProBtnSection}>
+                  <Button
+                    onClick={() => setEdit(!edit)} // Toggle edit mode
+                    style={styles.userProBtn}
                   >
-                    Edit
-                  </button>
-                  <button
-                    className="cansel-btn-pro"
-                    type="submit"
-                    style={{
-                      border: "2px solid black",
-                      borderRadius: "20px",
-                      width: "90px",
-                      marginLeft: "20px",
-                      backgroundColor: " rgb(137, 186, 226)",
-                    }}
-                  >
-                    Update
-                  </button>
+                    {edit ? "Cancel" : "Edit"}
+                  </Button>
+                  {edit && (
+                    <Button
+                      onClick={handleUpdate} // Call handleUpdate on button click
+                      style={styles.userProBtn}
+                    >
+                      Update
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
@@ -105,3 +138,46 @@ export default function userprofile() {
     </div>
   );
 }
+
+// Styling for the component
+const styles = {
+  userProfileAll: {
+    width: '50%',
+    margin: '20px auto',
+    border: '2px solid #020000',
+    backgroundColor: '#fbfeff',
+    borderRadius: '10px',
+    padding: '20px',
+  },
+  userProfileInsideElements: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+  },
+  userProfileHeader: {
+    backgroundColor: 'rgb(3, 138, 52)',
+    width: '50%',
+    margin: '20px auto',
+    textAlign: 'center',
+    borderRadius: '10px',
+    color: 'white',
+    padding: '10px',
+    fontSize: '24px',
+  },
+  userProBtnSection: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '20px',
+  },
+  userProBtn: {
+    padding: '10px 20px',
+    borderRadius: '10px',
+    backgroundColor: 'rgb(0, 61, 244)',
+    color: 'white',
+    fontSize: '16px',
+    cursor: 'pointer',
+    border: 'none',
+    transition: 'background-color 0.3s ease, color 0.3s ease',
+    marginRight: '10px',
+  },
+};
