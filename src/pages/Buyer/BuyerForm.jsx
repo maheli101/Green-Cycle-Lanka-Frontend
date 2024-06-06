@@ -4,12 +4,13 @@ import axios from 'axios';
 import { Link } from "react-router-dom";
 
 function RecyclingForm() {
-  const [material, setMaterial] = useState('plastic'); // Set default to 'plastic'
+  const [material, setMaterial] = useState('plastic');
   const [amount, setAmount] = useState(10);
   const [town, setTown] = useState('');
   const [email, setEmail] = useState('');
   const [showModal, setShowModal] = useState(false); 
   const [modalMessage, setModalMessage] = useState(''); 
+  const [errors, setErrors] = useState({}); // State for validation errors
 
   const handleMaterialChange = (e) => setMaterial(e.target.value);
   const handleAmountChange = (e) => setAmount(e.target.value);
@@ -18,7 +19,7 @@ function RecyclingForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ material, amount, town, email }); // Log form data for debugging
+    if (!validateForm()) return; // Check for validation errors before submitting
     try {
       const response = await axios.post('http://localhost:8000/Order/postOrder', {
         material,
@@ -26,10 +27,9 @@ function RecyclingForm() {
         town,
         email
       });
-      console.log('Order placed successfully:', response.data);
       setModalMessage('Congratulations! Your order has been successfully placed! We will keep you updated with the delivery status. Thank you for joining forces with Green Cycle Lanka! 🌱🚚');
       setShowModal(true); 
-      setMaterial('plastic'); // Reset to default
+      setMaterial('plastic');
       setAmount(10);
       setTown('');
       setEmail('');
@@ -41,6 +41,27 @@ function RecyclingForm() {
   };
 
   const handleCloseModal = () => setShowModal(false); 
+
+  const validateForm = () => {
+    const errors = {};
+    let isValid = true;
+
+    if (!email.trim()) {
+      errors.email = 'Email is required';
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = 'Invalid email address';
+      isValid = false;
+    }
+
+    if (!town.trim()) {
+      errors.town = 'Town is required';
+      isValid = false;
+    }
+
+    setErrors(errors);
+    return isValid;
+  };
 
   return (
     <Container style={{ marginTop: '150px', width: "50%" }}>
@@ -62,10 +83,12 @@ function RecyclingForm() {
         <Form.Group controlId="townInput">
           <Form.Label>Town</Form.Label>
           <Form.Control type="text" placeholder="Enter your town" value={town} onChange={handleTownChange} />
+          {errors.town && <Form.Text className="text-danger">{errors.town}</Form.Text>}
         </Form.Group>
         <Form.Group controlId="emailInput">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" placeholder="Enter your email" value={email} onChange={handleEmailChange} />
+          {errors.email && <Form.Text className="text-danger">{errors.email}</Form.Text>}
         </Form.Group>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: "28px" }}>
           <Button variant="primary" type="submit" style={{ marginRight: '10px' }}>
