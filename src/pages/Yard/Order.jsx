@@ -18,6 +18,16 @@ function Order() {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8000/order/deleteOrder/${id}`);
+      // After successful deletion, fetch the updated list of orders
+      fetchOrders();
+    } catch (error) {
+      console.error('Error deleting order:', error);
+    }
+  };
+
   return (
     <div
       style={{
@@ -179,6 +189,7 @@ function Order() {
                     cursor: 'pointer',
                     transition: 'background-color 0.3s ease',
                   }}
+                  onClick={() => handleDelete(order._id)}
                 >
                   Delete
                 </button>

@@ -94,6 +94,7 @@ function App() {
         <Route path="login" element={<Loginpage />} />
         <Route path="register" element={<Register />} />
         <Route path="vehicle" element={<Vehicleregister />} />
+        
       </Routes>
     </Router>
   );

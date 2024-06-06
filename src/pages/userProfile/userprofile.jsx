@@ -1,6 +1,7 @@
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function UserProfile() {
   const [userData, setUserData] = useState({});
@@ -57,13 +58,22 @@ export default function UserProfile() {
 
   return (
     <div>
-      <Container>
+      <Container style={{marginTop:"40px"}}>
         <Row>
           <Col>
             <div style={styles.userProfileAll}>
               <div style={styles.userProfileInsideElements}>
                 <div style={styles.userProfileHeader}>
                   <h1>User Profile</h1>
+                </div>
+
+                <div>
+                  
+                    <Button>View Pick Up Requests</Button>
+                 
+                 
+                    <Button>View Orders</Button>
+                  
                 </div>
 
                 <Form className="user-profile-form">
