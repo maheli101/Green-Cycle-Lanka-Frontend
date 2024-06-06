@@ -11,7 +11,7 @@ export default function Register() {
     contactNumber: "",
     NIC: "",
     password: "",
-    type: "Driver",
+    type: "",
   });
   const [response, setResponse] = useState("No response yet");
 
@@ -34,6 +34,7 @@ export default function Register() {
         type: "",
       });
     } catch (error) {
+      console.log(formData)
       console.error("Error submitting form:", error);
     }
   };
