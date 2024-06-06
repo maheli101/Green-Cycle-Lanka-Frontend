@@ -21,10 +21,12 @@ export default function UserProfile() {
         console.log(response.data);
         setUserData(response.data); // Set the user data
       }).catch(error => {
-        console.error('Error fetching user profile:', error);
+        console.log('Error fetching user profile:', error);
+        alert("Can't find user informations")
       });
     }
   }, []);
+ 
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -49,9 +51,12 @@ export default function UserProfile() {
           }
         });
         console.log('User updated successfully:', response.data);
+         alert("Update successfully")
+        
         setEdit(false); // Disable edit mode after successful update
       } catch (error) {
         console.error('Error updating user profile:', error);
+        alert("Can't Update data")
       }
     }
   };

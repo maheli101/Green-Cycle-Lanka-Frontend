@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import registerBCK from "../../assets/registerphotos/Regback.jpeg";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { post } from "../../Api/Axios.js";
 
 export default function Register() {
@@ -14,16 +14,61 @@ export default function Register() {
     type: "",
   });
   const [response, setResponse] = useState("No response yet");
+  const [errors, setErrors] = useState({});
+
+  const validateName = (name) => {
+    const regex = /^[a-zA-Z ]*$/;
+    return regex.test(name);
+  };
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const validateContactNumber = (contactNumber) => {
+    const regex = /^\d{10}$/;
+    return regex.test(contactNumber);
+  };
+
+  const validateNIC = (NIC) => {
+    const regex = /^\d{12}$/;
+    return regex.test(NIC);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    let newErrors = { ...errors };
+
+    switch (name) {
+      case "name":
+        newErrors.name = validateName(value) ? "" : "Name should contain only letters";
+        break;
+      case "email":
+        newErrors.email = validateEmail(value) ? "" : "Please enter a valid email";
+        break;
+      case "contactNumber":
+        newErrors.contactNumber = validateContactNumber(value)
+          ? ""
+          : "Contact number should contain exactly 10 numbers";
+        break;
+      case "NIC":
+        newErrors.NIC = validateNIC(value) ? "" : "NIC should contain exactly 12 numbers";
+        break;
+      default:
+        break;
+    }
+
+    setErrors(newErrors);
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-
-      console.log(formData)
-      
-      const response = await post("http://localhost:8000/user/postUser", formData);   //response ekata link eken wena tika gannawa
-      console.log(response);
+      const response = await post("http://localhost:8000/user/postUser", formData);
       setResponse(response);
+
       // Reset the form after successful submission
       setFormData({
         name: "",
@@ -33,22 +78,21 @@ export default function Register() {
         password: "",
         type: "",
       });
+
+      console.log(response);
+      alert(response);
+
+      // Redirect to login page after successful registration
+      return <Navigate to="/login" replace />;
     } catch (error) {
-      console.log(formData)
       console.error("Error submitting form:", error);
     }
-  };
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    return <Navigate to="/login" replace />;
   };
 
   return (
-
-    
     <Container fluid className="vh-100 d-flex align-items-center justify-content-center">
       <Row>
-        
         <Col md={6}>
           <img
             src={registerBCK}
@@ -68,7 +112,9 @@ export default function Register() {
                 value={formData.name}
                 onChange={handleChange}
                 required
+                isInvalid={!!errors.name}
               />
+              <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="formEmail" className="mb-3">
@@ -80,7 +126,9 @@ export default function Register() {
                 value={formData.email}
                 onChange={handleChange}
                 required
+                isInvalid={!!errors.email}
               />
+              <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="formContactNumber" className="mb-3">
@@ -92,7 +140,9 @@ export default function Register() {
                 value={formData.contactNumber}
                 onChange={handleChange}
                 required
+                isInvalid={!!errors.contactNumber}
               />
+              <Form.Control.Feedback type="invalid">{errors.contactNumber}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="formNIC" className="mb-3">
@@ -104,7 +154,9 @@ export default function Register() {
                 value={formData.NIC}
                 onChange={handleChange}
                 required
+                isInvalid={!!errors.NIC}
               />
+              <Form.Control.Feedback type="invalid">{errors.NIC}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="formPassword" className="mb-3">
@@ -130,10 +182,11 @@ export default function Register() {
                 <option value="User">User</option>
               </Form.Select>
             </Form.Group>
-
+            
             <Button type="submit" variant="primary" className="me-3">
               Register
             </Button>
+            
             <Link to="/login" className="text-decoration-none">
               Already have an account? Sign in
             </Link>
