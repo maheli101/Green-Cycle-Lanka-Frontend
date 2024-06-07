@@ -21,7 +21,7 @@ const YourComponent = () => {
             justifyContent: 'center', 
             alignItems: 'center', 
             height: '100%', 
-            padding: '20px'
+            padding: '10px'
           }}
         >
           <div className="container text-center" style={{ maxWidth: '80%' }}>
