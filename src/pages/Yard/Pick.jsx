@@ -121,7 +121,9 @@ function Pick() {
                   color: 'white',
                   fontSize: '20px',
                 }}
-              ></th>
+              >Status 
+              </th>
+              
             </tr>
           </thead>
           <tbody>
@@ -171,7 +173,42 @@ function Pick() {
                 >
                   {request.town}
                 </td>
+                <td
+                  style={{
+                    padding: '12px',
+                    textAlign: 'center',
+                    border: '2px solid white',
+                    backgroundColor: '#abdf94',
+                    fontSize: '18px',
+                  }}
+                >
+                  {request.status}
+                </td>
                 
+                <td
+                  style={{
+                    padding: '12px',
+                    textAlign: 'center',
+                    border: '2px solid white',
+                    backgroundColor: '#abdf94',
+                    fontSize: '18px',
+                  }}
+                >
+                  <button
+                  style={{
+                    backgroundColor: '#277521',
+                    color: 'white',
+                    borderRadius: '5px',
+                    border: 'none',
+                    padding: '8px 16px',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.3s ease',
+                  }}
+                 
+                >
+                  Accept
+                </button>
+                </td>
                 <td
                   style={{
                     padding: '12px',
