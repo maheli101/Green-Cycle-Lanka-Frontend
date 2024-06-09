@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { useState } from "react";
+import { Container, Row, Col, Form, Button} from "react-bootstrap";
 import registerBCK from "../../assets/registerphotos/Regback.jpeg";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { post } from "../../Api/Axios.js";
 
 export default function Register() {
@@ -11,7 +11,7 @@ export default function Register() {
     contactNumber: "",
     NIC: "",
     password: "",
-    type: "",
+    type: "User",
   });
   const [response, setResponse] = useState("No response yet");
   const [errors, setErrors] = useState({});
@@ -58,16 +58,21 @@ export default function Register() {
       default:
         break;
     }
-
+    console.log(formData)
     setErrors(newErrors);
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {    //function to form submit
     e.preventDefault();
+
+    console.log(formData)
     try {
-      const response = await post("http://localhost:8000/user/postUser", formData);
-      setResponse(response);
+      const response = await post('http://localhost:8000/user/postUser', formData);
+      
+      setResponse(response)
+      console.log(response)
+      alert(response)
 
       // Reset the form after successful submission
       setFormData({
@@ -78,16 +83,14 @@ export default function Register() {
         password: "",
         type: "",
       });
-
-      console.log(response);
-      alert(response);
-
       // Redirect to login page after successful registration
-      return <Navigate to="/login" replace />;
-    } catch (error) {
-      console.error("Error submitting form:", error);
+     
+    }catch (error) {
+      console.log(error);
+      console.log("can't send data from frontend")
+      
     }
-    return <Navigate to="/login" replace />;
+  
   };
 
   return (
@@ -177,13 +180,14 @@ export default function Register() {
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
+                required
               >
-                <option value="Driver">Driver</option>
-                <option value="User">User</option>
+                <option value="Driver" name="Driver">Driver</option>
+                <option value="User" name="User">User</option>
               </Form.Select>
             </Form.Group>
             
-            <Button type="submit" variant="primary" className="me-3">
+            <Button type="submit" variant="primary" className="me-3" >
               Register
             </Button>
             

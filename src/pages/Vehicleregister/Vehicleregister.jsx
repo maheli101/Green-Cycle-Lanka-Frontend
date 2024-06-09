@@ -4,49 +4,58 @@ import vehicleBCK from "../../assets/vehiclePhotos/Vehicleback.jpeg";
 import { useState } from "react";
 import axios from "axios";
 
-
 export default function Vehicleregister() {
- 
-  const [vehicleModel, setVehicleModel] = useState("");
-  const [capacity, setCapacity] = useState("");
-  const [lisonNumber, setLisonNumber] = useState("");
-  const [vehicleNumber, setVehicleNumber] = useState("");
-  const [inusaranceCard, setInusaranceCard] = useState("");
-  const [fuel, setFuel] = useState("");
+  const [formData, setFormData] = useState({
+    //form data's default values
 
-  function sendData(event) {
-    const token = localStorage.getItem('Token');  // Ensure 'Token' is in quotes if it's the key name
-
-    event.preventDefault();
-    
-    const newDriver = {
-      vehicleModel,
-      capacity,
-      lisonNumber,
-      vehicleNumber,
-      inusaranceCard,
-      fuel
-    };
-    
-    axios.post("http://localhost:8000/Vehicle/add", newDriver, {
-      headers: {
-        id:localStorage.getItem('userId'),
-        isDriver:localStorage.getItem('isDriver')
-        
-      }
-    })
-    .then(() => {
-      alert("Successfully added vehicle");
-    })
-    .catch((err) => {
-      alert(`Can't connect to back end: ${err}`);
-    });
-    
-    console.log(token);
-    
-
+    vehicleModel: "",
+    capacity: "",
+    lisonNumber: "",
+    vehicleNumber: "",
+    inusaranceCard: "",
+    fuel: "Petrol",
+  });
+  const [response, setResponse] = useState(null);
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
   }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+
+    try {
+      console.log(formData);
+        console.log(localStorage.getItem('isDriver'))
+      axios.post("http://localhost:8000/Vehicle/postVehicle", formData, {
+         headers: {
+          id:localStorage.getItem('userId'),
+           driver:localStorage.getItem('isDriver')
+
+        
+         }
+      });
+      setResponse(response);
+      console.log("Successfully added vehicle");
+
+      //after succsess submission
+
+      setFormData({
+        vehicleModel: "",
+        capacity: "",
+        lisonNumber: "",
+        vehicleNumber: "",
+        inusaranceCard: "",
+        fuel: "petrol",
+      });
+    } catch (err) {
+      console.log("can't send data to back end");
+      console.log(err);
+    }
+  };
   
+
   return (
     <div>
       <Row style={{ height: "100vh" }}>
@@ -63,7 +72,7 @@ export default function Vehicleregister() {
           />
         </Col>
         <Col sm={12} lg={6} md={8}>
-          <Form className="vehi-reg-full" onSubmit={sendData}>
+          <Form className="vehi-reg-full" onSubmit={handleSubmit}>
             <div className="vehi-reg-allparts">
               <div className="vehi-reg-head">
                 <h3 className="vehi-reg-word">Register Your Vehicle</h3>
@@ -76,8 +85,9 @@ export default function Vehicleregister() {
                       type="text"
                       placeholder="Vehicle model"
                       required
-                      name="model"
-                      onChange={(event) => setVehicleModel(event.target.value)}
+                      name="vehicleModel"
+                      value={formData.vehicleModel}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </Col>
@@ -88,8 +98,8 @@ export default function Vehicleregister() {
                       placeholder="Capacity (KG)"
                       required
                       name="capacity"
-                      value={capacity}
-                      onChange={(event) => setCapacity(event.target.value)}
+                      value={formData.capacity}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </Col>
@@ -102,9 +112,9 @@ export default function Vehicleregister() {
                       type="text"
                       placeholder="Lison-number"
                       required
-                      name="lisonnumber"
-                      value={lisonNumber}
-                      onChange={(event) => setLisonNumber(event.target.value)}
+                      name="lisonNumber"
+                      value={formData.lisonNumber}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </Col>
@@ -114,9 +124,9 @@ export default function Vehicleregister() {
                       type="text"
                       placeholder="Vehicle-number"
                       required
-                      name="vehiclenumber"
-                      value={vehicleNumber}
-                      onChange={(event) => setVehicleNumber(event.target.value)}
+                      name="vehicleNumber"
+                      value={formData.vehicleNumber}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </Col>
@@ -130,9 +140,9 @@ export default function Vehicleregister() {
                   type="text"
                   placeholder="Insurance card-number"
                   required
-                  name="insuarance"
-                  value={inusaranceCard}
-                  onChange={(event) => setInusaranceCard(event.target.value)}
+                  name="inusaranceCard"
+                  value={formData.inusaranceCard}
+                  onChange={handleChange}
                 />
               </Form.Group>
 
@@ -143,8 +153,9 @@ export default function Vehicleregister() {
                 <Form.Label>Fuel Type:</Form.Label>
                 <Form.Select
                   as="select"
-                  value={fuel}
-                  onChange={(event) => setFuel(event.target.value)}
+                  value={formData.fuel}
+                  onChange={handleChange}
+                  name=" fuel"
                 >
                   <option value="Petrol" name="petrol">
                     Petrol
@@ -156,10 +167,7 @@ export default function Vehicleregister() {
               </Form.Group>
 
               <div className="vehi-reg-lastf">
-                <Button
-                  type="submit"
-                  className="vehi-reg-reg-btn"
-                >
+                <Button type="submit" className="vehi-reg-reg-btn">
                   Register
                 </Button>
               </div>
