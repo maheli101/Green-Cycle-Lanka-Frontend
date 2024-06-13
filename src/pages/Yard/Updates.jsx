@@ -1,82 +1,81 @@
-import React from "react";
-import UpdateImage from "../../assets/Photos/pic3.jpg";
-import { Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-function Updates() {
+function Update() {
+  const [totals, setTotals] = useState({ plastic: 700, glass: 300, paper: 500, metal: 600 });
+
+  const updateTotals = (material, amount, action) => {
+    setTotals(prevTotals => {
+      const updatedTotal = action === 'increase' ? prevTotals[material] + amount : prevTotals[material] - amount;
+      return { ...prevTotals, [material]: updatedTotal };
+    });
+  };
+
+  const fetchAndProcessRequests = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/request/getRequests');
+      const confirmedRequests = response.data.filter(request => request.status === 'confirmed');
+      confirmedRequests.forEach(request => {
+        updateTotals(request.material.toLowerCase(), request.amount, 'increase');
+      });
+    } catch (error) {
+      console.error('Error fetching requests:', error);
+    }
+  };
+
+  const fetchAndProcessOrders = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/order/getOrders');
+      const confirmedOrders = response.data.filter(order => order.status === 'confirmed');
+      confirmedOrders.forEach(order => {
+        updateTotals(order.material.toLowerCase(), order.amount, 'decrease');
+      });
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await Promise.all([fetchAndProcessRequests(), fetchAndProcessOrders()]);
+    };
+    fetchData();
+  }, []);
+
+  const renderProgressBar = (type, value) => {
+    const colors = {
+      plastic: '#277521',
+      glass: '#2175A7',
+      paper: '#A77521',
+      metal: '#752121'
+    };
+    return (
+      <div key={type} style={{ margin: '20px 0' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
+          <span>{type}</span>
+          <span>{value} kg</span>
+        </div>
+        <div style={{ background: '#ddd', borderRadius: '5px' }}>
+          <div style={{ width: `${(value / 1000) * 100}%`, background: colors[type.toLowerCase()], height: '24px', borderRadius: '5px' }}></div>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <>
-      <Row style={{ height: "100vh" }}>
-        <Col xs={12} md={6} lg={6}>
-          <img src={UpdateImage} alt="Update" style={{ width: "100%" }} />
-        </Col>
-        <Col xs={12} md={6} lg={6}>
-          <div style={{ margin: "10%" }}></div>
-          <h3 style={{ fontStyle: "italic", margin: "1%  5%" }}>
-            Stock Update
-          </h3>
-          <h6 style={{ fontStyle: "oblique", margin: "5%" }}>
-            Welcome to the Updates page!. Here, You will find the latest stock
-            levels for recyclable materials like plastics, glass, paper, and
-            metals. Our progress bars provide a quick visual of current stock
-            percentages, helping you stay informed and make decisions easily.
-            Thank you for supporting our recycling efforts!
-          </h6>
-          <div
-            className="progress mb-4"
-            style={{ height: "30px", margin: "5%" }}
-          >
-            <div className="progress-bar bg-danger" style={{ width: "70%" }}>
-              Plastic - 700kg
-            </div>
-          </div>
-          <div
-            className="progress mb-4"
-            style={{ height: "30px", margin: "5%" }}
-          >
-            <div className="progress-bar bg-success" style={{ width: "30%" }}>
-              Glass - 300kg
-            </div>
-          </div>
-          <div
-            className="progress mb-4"
-            style={{ height: "30px", margin: "5%" }}
-          >
-            <div className="progress-bar bg-warning" style={{ width: "50%" }}>
-              Paper - 500kg
-            </div>
-          </div>
-          <div
-            className="progress mb-2"
-            style={{ height: "30px", margin: "5%" }}
-          >
-            <div className="progress-bar bg-primary" style={{ width: "60%" }}>
-              Metal - 600kg
-            </div>
-          </div>
-
-          <Link to="/yard">
-            <button
-              style={{
-                backgroundColor: "#752121",
-                color: "white",
-                width: "15%",
-                border: "none",
-                borderRadius: "5px",
-                padding: "8px 16px",
-                cursor: "pointer",
-                float: "right",
-                marginRight: "1%",
-                marginTop: "5%",
-              }}
-            >
-              Back
-            </button>
-          </Link>
-        </Col>
-      </Row>
-    </>
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', marginTop: '80px', backgroundColor: '#f2f2f2' }}>
+      <h1 style={{ textAlign: 'center', marginBottom: '20px', color: '#752121' }}>Stock Update</h1>
+      {Object.keys(totals).map(type => renderProgressBar(type, totals[type]))}
+      <Link to="/yard">
+        <button
+          style={{ backgroundColor: '#752121', color: 'white', width: '15%', border: 'none', borderRadius: '5px', padding: '8px 16px', cursor: 'pointer', float: 'right', marginRight: '1%', marginTop: '5%' }}
+        >
+          Back
+        </button>
+      </Link>
+    </div>
   );
 }
 
-export default Updates;
+export default Update;
