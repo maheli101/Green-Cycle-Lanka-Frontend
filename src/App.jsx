@@ -38,6 +38,7 @@ import Register from "./pages/Register/Register"
 import Vehicleregister from "./pages/Vehicleregister/Vehicleregister";
 import User from "./pages/userProfile/userprofile";
 
+
 import BuyerSelectionPage from "./pages/Buyer/BuyerSelectionPage";
 import BuyerForm from "./pages/Buyer/BuyerForm";
 
@@ -71,6 +72,7 @@ function App() {
           <Route path="Driver_admin" element={<Driver_admin />}/>
           <Route path="End" element={<End />}/>
 
+         
 
 
         
