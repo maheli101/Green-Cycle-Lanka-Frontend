@@ -10,7 +10,20 @@ function RecyclingForm() {
   const [email, setEmail] = useState('');
   const [showModal, setShowModal] = useState(false); 
   const [modalMessage, setModalMessage] = useState(''); 
-  const [errors, setErrors] = useState({}); // State for validation errors
+  const [errors, setErrors] = useState({}); 
+
+  const townsInColombo = [
+    'Angoda', 'Athurugiriya', 'Avissawella', 'Battaramulla', 'Battaramulla South',
+    'Biyagama', 'Borella', 'Colombo 1', 'Colombo 2', 'Colombo 3', 
+    'Colombo 4', 'Colombo 5', 'Colombo 6', 'Colombo 7', 'Colombo 8', 
+    'Colombo 9', 'Colombo 10', 'Colombo 11', 'Colombo 12', 'Colombo 13', 
+    'Colombo 14', 'Colombo 15', 'Dalugama', 'Dehiwala', 'Hanwella', 
+    'Hokandara', 'Homagama', 'Kaduwela', 'Kalubowila', 'Kesbewa', 
+    'Kiribathgoda', 'Kaduwela', 'Kotte', 'Maharagama', 'Malabe', 
+    'Moratuwa', 'Mount Lavinia', 'Mulleriyawa', 'Nawala', 'Nugegoda', 
+    'Pannipitiya', 'Piliyandala', 'Rajagiriya', 'Ratmalana', 
+    'Sri Jayawardenepura Kotte', 'Thalawathugoda', 'Wellampitiya'
+  ];
 
   const handleMaterialChange = (e) => setMaterial(e.target.value);
   const handleAmountChange = (e) => setAmount(e.target.value);
@@ -19,7 +32,7 @@ function RecyclingForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return; // Check for validation errors before submitting
+    if (!validateForm()) return; 
     try {
       const response = await axios.post('http://localhost:8000/Order/postOrder', {
         material,
@@ -80,9 +93,14 @@ function RecyclingForm() {
           <Form.Label>Amount (kg)</Form.Label>
           <Form.Control type="number" min={10} step={1} value={amount} onChange={handleAmountChange} />
         </Form.Group>
-        <Form.Group controlId="townInput">
-          <Form.Label>Town</Form.Label>
-          <Form.Control type="text" placeholder="Enter your town" value={town} onChange={handleTownChange} />
+        <Form.Group controlId="townDropdown">
+          <Form.Label>Select Town</Form.Label>
+          <Form.Control as="select" onChange={handleTownChange} value={town}>
+            <option value="">Select your town</option>
+            {townsInColombo.map((town, index) => (
+              <option key={index} value={town}>{town}</option>
+            ))}
+          </Form.Control>
           {errors.town && <Form.Text className="text-danger">{errors.town}</Form.Text>}
         </Form.Group>
         <Form.Group controlId="emailInput">

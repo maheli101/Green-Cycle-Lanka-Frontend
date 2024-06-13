@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { Container, Typography, Paper, CssBaseline, Button } from '@mui/material';
+import { Container, Typography, Paper, CssBaseline, Button, Grid } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { red, blue, green } from '@mui/material/colors';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-
-const DEFAULT_LOCATIONS = [
-  { latitude: 40.7128, longitude: -74.0060, color: red[500] },
-  { latitude: 34.0522, longitude: -118.2437, color: blue[500] },
-  { latitude: 41.8781, longitude: -87.6298, color: green[500] },
-];
+import axios from 'axios'; // Import Axios
+import { useNavigate } from 'react-router-dom';
 
 const createIcon = (color) => {
   const iconHTML = ReactDOMServer.renderToString(
@@ -28,40 +24,43 @@ const createIcon = (color) => {
 };
 
 const Start = () => {
-  const [positions, setPositions] = useState(DEFAULT_LOCATIONS);
+  const [positions, setPositions] = useState([]);
+  const id = localStorage.getItem('userId')
+  const navigate = useNavigate();
 
+  const navWelcome = ()=>{
+    navigate('/Welcome')
+  }
   useEffect(() => {
-    // Fetch locations from the database or use static variables
-    // Example: Fetch locations from an API endpoint or set them statically
-    // const fetchLocations = async () => {
-    //   try {
-    //     const response = await fetch('your-api-endpoint');
-    //     const data = await response.json();
-    //     setPositions(data.locations); // Assuming API returns { locations: [{ latitude, longitude, color }, ...] }
-    //   } catch (error) {
-    //     console.error('Error fetching locations:', error);
-    //   }
-    // };
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/reqOrder/${id}`); 
+        setPositions(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error('Error fetching locations from backend:', error);
+      }
+    };
 
-    // Uncomment the following line to fetch locations when component mounts
-    // fetchLocations();
-
-    // For demonstration, set positions statically
-    setPositions(DEFAULT_LOCATIONS);
+    fetchData();
   }, []);
+
+  const handleMapClick = (e) => {
+    // Handle map click if needed
+  };
 
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="md" style={styles.container}>
+      <Container maxWidth="lg" style={styles.container}>
         <Paper elevation={3} style={styles.paper}>
           <Typography variant="h4" align="center" gutterBottom style={styles.heading}>
             SEE LOCATIONS
           </Typography>
           <div style={styles.mapContainer} className="map-animation">
-            <MapContainer 
-              center={[DEFAULT_LOCATIONS[0].latitude, DEFAULT_LOCATIONS[0].longitude]} 
-              zoom={4} 
+          <MapContainer 
+              center={[8.0328139, 80.214955]} 
+              zoom={6} 
               style={styles.map}
             >
               <TileLayer
@@ -74,8 +73,13 @@ const Start = () => {
                   position={[position.latitude, position.longitude]} 
                   icon={createIcon(position.color)}
                 >
-                  <Popup>
-                    Location: {position.latitude}, {position.longitude}
+                  <Popup className="popup-animation">
+                    <div className="popup-content">
+                    <div className="popup-line">Dirver Name: {position.userName}</div>
+                      <div className="popup-line">Town: {position.town}</div>
+                      <div className="popup-line">Location: {position.latitude}, {position.longitude}</div>
+                      <div className="popup-line">Status: {position.status}</div>
+                    </div>
                   </Popup>
                 </Marker>
               ))}
@@ -83,32 +87,29 @@ const Start = () => {
           </div>
         </Paper>
       </Container>
-      <Container className='d-flex row mb-3 mt-3 '>
-        <div className='ml-3 col-4 '> 
-          <Button variant="contained" style={styles.button}>
-            Back
-          </Button>
-        </div> 
-        <div className='justify-content-center align-content-center col'>
-          <Button variant="contained" style={styles.button} className="button-animation w-50">
-            END TRIP
-          </Button>
-        </div>
+      <Container>
+        <Grid container spacing={3} alignItems="center" justifyContent="center" style={styles.buttonContainer}>
+          <Grid item xs={12} sm={8} md={6}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={12}>
+                <Button variant="contained" style={styles.button} className="button-animation" fullWidth onClick={navWelcome}>
+                  END TRIP
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       </Container>
       <style jsx global>{`
         @keyframes mapSweep {
           0% {
             opacity: 0;
-            transform: translateY(-100%);
+            transform: translateY(100%);
           }
           100% {
             opacity: 1;
             transform: translateY(0);
           }
-        }
-
-        .map-animation {
-          animation: mapSweep 1s ease-out forwards;
         }
 
         @keyframes buttonZoomIn {
@@ -122,8 +123,54 @@ const Start = () => {
           }
         }
 
+        @keyframes sweepLine {
+          0% {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .map-animation {
+          animation: mapSweep 1s ease-out forwards;
+        }
+
         .button-animation {
           animation: buttonZoomIn 0.5s ease-out forwards;
+        }
+
+        .popup-animation .popup-content {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .popup-animation .popup-line {
+          animation: sweepLine 0.5s ease-out forwards;
+        }
+
+        .popup-animation .popup-line:nth-child(1) {
+          animation-delay: 0s;
+        }
+
+        .popup-animation .popup-line:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+
+        .popup-animation .popup-line:nth-child(3) {
+          animation-delay: 0.4s;
+        }
+
+        .popup-animation .popup-line:nth-child(4) {
+          animation-delay: 0.6s;
+        }
+
+        .popup-button {
+          margin-top: 10px;
+          animation: sweepLine 0.8s ease-out forwards;
         }
       `}</style>
     </>
@@ -165,6 +212,10 @@ const styles = {
     fontWeight: 'bold',
     color: '#333',
   },
+  buttonContainer: {
+    marginTop: '20px',
+    marginBottom: '20px',
+  },
   button: {
     background: 'linear-gradient(to right, #000000, #434343)',
     color: '#fff',
@@ -175,6 +226,7 @@ const styles = {
     fontWeight: 'bold',
     fontSize: '16px',
     transition: 'background 0.3s ease, transform 0.3s ease',
+    width: '100%',
   },
 };
 

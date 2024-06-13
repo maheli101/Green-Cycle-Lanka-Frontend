@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
-import PaperImage from '../../assets/SupplierPhotos/Glass.jpg';
+import GlassImage from '../../assets/SupplierPhotos/Glass.jpg';
 
-function Paper() {
+function Glass() {
     const [amount, setAmount] = useState('');
     const [address, setAddress] = useState('');
     const [errors, setErrors] = useState({});
@@ -59,7 +59,7 @@ function Paper() {
                     textAlign: 'left',
                     maxWidth: '700px',
                     width: '100%',
-                    backgroundColor: '#fff',
+                    backgroundColor: '#00fff',
                     boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
                 }}
             >
@@ -105,9 +105,11 @@ function Paper() {
                     </Form.Group>
                     <Row className="justify-content-center">
                         <Col xs={6} md={4}>
+                     
                             <Button variant="success" type="submit" className="rounded-pill w-100">
                                 Next
                             </Button>
+                           
                         </Col>
                     </Row>
                 </Form>
@@ -118,4 +120,4 @@ function Paper() {
     );
 }
 
-export default Paper;
+export default Glass;

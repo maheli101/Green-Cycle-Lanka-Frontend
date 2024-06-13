@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { useState } from "react";
+import { Container, Row, Col, Form, Button} from "react-bootstrap";
 import registerBCK from "../../assets/registerphotos/Regback.jpeg";
 import { Link } from "react-router-dom";
 import { post } from "../../Api/Axios.js";
@@ -11,16 +11,69 @@ export default function Register() {
     contactNumber: "",
     NIC: "",
     password: "",
-    type: "Driver",
+    type: "User",
   });
   const [response, setResponse] = useState("No response yet");
+  const [errors, setErrors] = useState({});
 
-  const handleSubmit = async (e) => {
+  const validateName = (name) => {
+    const regex = /^[a-zA-Z ]*$/;
+    return regex.test(name);
+  };
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const validateContactNumber = (contactNumber) => {
+    const regex = /^\d{10}$/;
+    return regex.test(contactNumber);
+  };
+
+  const validateNIC = (NIC) => {
+    const regex = /^\d{12}$/;
+    return regex.test(NIC);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    let newErrors = { ...errors };
+
+    switch (name) {
+      case "name":
+        newErrors.name = validateName(value) ? "" : "Name should contain only letters";
+        break;
+      case "email":
+        newErrors.email = validateEmail(value) ? "" : "Please enter a valid email";
+        break;
+      case "contactNumber":
+        newErrors.contactNumber = validateContactNumber(value)
+          ? ""
+          : "Contact number should contain exactly 10 numbers";
+        break;
+      case "NIC":
+        newErrors.NIC = validateNIC(value) ? "" : "NIC should contain exactly 12 numbers";
+        break;
+      default:
+        break;
+    }
+    console.log(formData)
+    setErrors(newErrors);
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {    //function to form submit
     e.preventDefault();
+
+    console.log(formData)
     try {
-      const response = await post("http://localhost:8000/User/postUser", formData);
-      console.log(response);
-      setResponse(response);
+      const response = await post('http://localhost:8000/user/postUser', formData);
+      
+      setResponse(response)
+      console.log(response)
+      alert(response)
+
       // Reset the form after successful submission
       setFormData({
         name: "",
@@ -28,15 +81,16 @@ export default function Register() {
         contactNumber: "",
         NIC: "",
         password: "",
-        type: "Driver",
+        type: "",
       });
-    } catch (error) {
-      console.error("Error submitting form:", error);
+      // Redirect to login page after successful registration
+     
+    }catch (error) {
+      console.log(error);
+      console.log("can't send data from frontend")
+      
     }
-  };
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  
   };
 
   return (
@@ -61,7 +115,9 @@ export default function Register() {
                 value={formData.name}
                 onChange={handleChange}
                 required
+                isInvalid={!!errors.name}
               />
+              <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="formEmail" className="mb-3">
@@ -73,7 +129,9 @@ export default function Register() {
                 value={formData.email}
                 onChange={handleChange}
                 required
+                isInvalid={!!errors.email}
               />
+              <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="formContactNumber" className="mb-3">
@@ -85,7 +143,9 @@ export default function Register() {
                 value={formData.contactNumber}
                 onChange={handleChange}
                 required
+                isInvalid={!!errors.contactNumber}
               />
+              <Form.Control.Feedback type="invalid">{errors.contactNumber}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="formNIC" className="mb-3">
@@ -97,7 +157,9 @@ export default function Register() {
                 value={formData.NIC}
                 onChange={handleChange}
                 required
+                isInvalid={!!errors.NIC}
               />
+              <Form.Control.Feedback type="invalid">{errors.NIC}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="formPassword" className="mb-3">
@@ -118,15 +180,17 @@ export default function Register() {
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
+                required
               >
-                <option value="Driver">Driver</option>
-                <option value="User">User</option>
+                <option value="Driver" name="Driver">Driver</option>
+                <option value="User" name="User">User</option>
               </Form.Select>
             </Form.Group>
-
-            <Button type="submit" variant="primary" className="me-3">
+            
+            <Button type="submit" variant="primary" className="me-3" >
               Register
             </Button>
+            
             <Link to="/login" className="text-decoration-none">
               Already have an account? Sign in
             </Link>

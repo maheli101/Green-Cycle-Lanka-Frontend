@@ -1,15 +1,18 @@
 import axios from "axios";
 
 // Function to handle POST request
+
+
 const post = async (url, data) => {
     try {
         const response = await axios.post(url, data, {
-            headers: { "Content-Type": "application/json" }
+           
         });
         console.log("Successfully", response.data);
         return response.data;
     } catch (error) {
-        console.error("Error:", error);
+        console.log("axios error")
+        //console.error("Error:", error);
         throw error;
     }
 };
@@ -48,7 +51,7 @@ const remove = async (url) => {
         return response.data;
     } catch (error) {
         console.error("Error:", error);
-        throw error;
+      
     }
 };
 
