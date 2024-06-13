@@ -29,6 +29,7 @@ function RecyclingForm() {
   const handleAmountChange = (e) => setAmount(e.target.value);
   const handleTownChange = (e) => setTown(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
+ const userId = localStorage.getItem('userId');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,7 +39,8 @@ function RecyclingForm() {
         material,
         amount,
         town,
-        email
+        userId
+        
       });
       setModalMessage('Congratulations! Your order has been successfully placed! We will keep you updated with the delivery status. Thank you for joining forces with Green Cycle Lanka! 🌱🚚');
       setShowModal(true); 
