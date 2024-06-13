@@ -10,6 +10,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 import Supplier from "./pages/Supplierpage/Supplier";
 import EditStatus from "./pages/Supplierpage/EditStatus";
+import ViewOrders from "./pages/userProfile/ViewOrders";
 
 
 
@@ -71,6 +72,7 @@ function App() {
           <Route path="End" element={<End />}/>
 
 
+
         
 
 
@@ -100,6 +102,7 @@ function App() {
 
 
           <Route path="user" element={<User />} />
+          <Route path="vieworder" element={<ViewOrders/>} />
 
           <Route path="buyer" element={<BuyerSelectionPage />} />
 
