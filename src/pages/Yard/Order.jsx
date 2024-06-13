@@ -56,7 +56,7 @@ function Order() {
           <tr>
             <th style={{ padding: '12px', textAlign: 'center', border: '2px solid white', backgroundColor: '#277521', color: 'white', fontSize: '20px' }}>User</th>
             <th style={{ padding: '12px', textAlign: 'center', border: '2px solid white', backgroundColor: '#277521', color: 'white', fontSize: '20px' }}>Material</th>
-            <th style={{ padding: '12px', textAlign: 'center', border: '2px solid white', backgroundColor: '#277521', color: 'white', fontSize: '20px' }}>Amount</th>
+            <th style={{ padding: '12px', textAlign: 'center', border: '2px solid white', backgroundColor: '#277521', color: 'white', fontSize: '20px' }}>Amount (kg)</th>
             <th style={{ padding: '12px', textAlign: 'center', border: '2px solid white', backgroundColor: '#277521', color: 'white', fontSize: '20px' }}>Town</th>
             <th style={{ padding: '12px', textAlign: 'center', border: '2px solid white', backgroundColor: '#277521', color: 'white', fontSize: '20px' }}>Status</th>
             <th style={{ padding: '12px', textAlign: 'center', border: '2px solid white', backgroundColor: '#277521', color: 'white', fontSize: '20px' }}></th>
@@ -89,7 +89,7 @@ function Order() {
           <tr>
             <th style={{ padding: '12px', textAlign: 'center', border: '2px solid white', backgroundColor: '#277521', color: 'white', fontSize: '20px' }}>User</th>
             <th style={{ padding: '12px', textAlign: 'center', border: '2px solid white', backgroundColor: '#277521', color: 'white', fontSize: '20px' }}>Material</th>
-            <th style={{ padding: '12px', textAlign: 'center', border: '2px solid white', backgroundColor: '#277521', color: 'white', fontSize: '20px' }}>Amount</th>
+            <th style={{ padding: '12px', textAlign: 'center', border: '2px solid white', backgroundColor: '#277521', color: 'white', fontSize: '20px' }}>Amount (kg)</th>
             <th style={{ padding: '12px', textAlign: 'center', border: '2px solid white', backgroundColor: '#277521', color: 'white', fontSize: '20px' }}>Town</th>
             <th style={{ padding: '12px', textAlign: 'center', border: '2px solid white', backgroundColor: '#277521', color: 'white', fontSize: '20px' }}>Status</th>
             <th style={{ padding: '12px', textAlign: 'center', border: '2px solid white', backgroundColor: '#277521', color: 'white', fontSize: '20px' }}></th>
