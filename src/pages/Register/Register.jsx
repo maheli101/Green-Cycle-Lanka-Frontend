@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button} from "react-bootstrap";
 import registerBCK from "../../assets/registerphotos/Regback.jpeg";
 import { Link } from "react-router-dom";
 import { post } from "../../Api/Axios.js";
-
+import Upload from "../../utilities/upload.js";
 export default function Register() {
   const [formData, setFormData] = useState({
     name: "",
@@ -12,9 +12,11 @@ export default function Register() {
     NIC: "",
     password: "",
     type: "User",
+    profilePicture :"null"
   });
   const [response, setResponse] = useState("No response yet");
   const [errors, setErrors] = useState({});
+  const[file,setFile]=useState(null)
 
   const validateName = (name) => {
     const regex = /^[a-zA-Z ]*$/;
@@ -37,7 +39,7 @@ export default function Register() {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value,files } = e.target;
     let newErrors = { ...errors };
 
     switch (name) {
@@ -61,19 +63,36 @@ export default function Register() {
     console.log(formData)
     setErrors(newErrors);
     setFormData({ ...formData, [name]: value });
+    if (name === "profilePicture") {
+      setFile(files[0]);
+    }
   };
 
   const handleSubmit = async (e) => {    //function to form submit
     e.preventDefault();
+   
+    if (!file) {
+      alert("Please upload a profile picture");
+      return;
+    }
 
     console.log(formData)
+
+      let url="";
+    try{
+     
+      url=await Upload(file)
+    }catch(err){
+          console.log("Can't upload files")
+    }
+
+    console.log(formData)
+    console.log(url)
     try {
-      const response = await post('http://localhost:8000/user/postUser', formData);
+       const response = await post('http://localhost:8000/user/postUser',{...formData,profilePicture:url});
       
       setResponse(response)
       console.log(response)
-      alert(response)
-
       // Reset the form after successful submission
       setFormData({
         name: "",
@@ -82,6 +101,8 @@ export default function Register() {
         NIC: "",
         password: "",
         type: "",
+        profilePicture :""
+
       });
       // Redirect to login page after successful registration
      
@@ -185,6 +206,14 @@ export default function Register() {
                 <option value="Driver" name="Driver">Driver</option>
                 <option value="User" name="User">User</option>
               </Form.Select>
+            </Form.Group>
+            <Form.Group controlId="formProfilePicture" className="mb-4">
+              <Form.Label>Upload Your Photo</Form.Label>
+              <Form.Control
+                type="file"
+                name="profilePicture"
+                onChange={handleChange}
+              />
             </Form.Group>
             
             <Button type="submit" variant="primary" className="me-3" >

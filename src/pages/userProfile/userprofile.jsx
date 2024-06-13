@@ -1,7 +1,7 @@
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+
 
 export default function UserProfile() {
   const [userData, setUserData] = useState({});
@@ -77,7 +77,7 @@ export default function UserProfile() {
                 <Form className="user-profile-form">
                   <div className="user-profile-all-letters">
                     <div className="user-pro-letters">
-                      <Form.Group as={Row} controlId="formFirstName">
+                      <Form.Group as={Row} controlId="formFirstName" style={{marginTop:"10px"}}>
                         <Form.Label column sm={2}>Name</Form.Label>
                         <Col sm={10}>
                           <Form.Control
@@ -91,7 +91,7 @@ export default function UserProfile() {
                         </Col>
                       </Form.Group>
 
-                      <Form.Group as={Row} controlId="formEmail">
+                      <Form.Group as={Row} controlId="formEmail" style={{marginTop:"20px"}}>
                         <Form.Label column sm={2}>Email</Form.Label>
                         <Col sm={10}>
                           <Form.Control
@@ -105,15 +105,41 @@ export default function UserProfile() {
                         </Col>
                       </Form.Group>
 
-                      <Form.Group as={Row} controlId="formPhoneNumber">
+                      <Form.Group as={Row} controlId="formPhoneNumber" style={{marginTop:"20px"}}>
                         <Form.Label column sm={2}>Phone Number</Form.Label>
                         <Col sm={10}>
                           <Form.Control
-                            type="text"
+                            type="number"
                             placeholder="Phone Number"
                             name="contactNumber"
                             value={userData.contactNumber || ''}
                             readOnly={!edit}
+                            onChange={handleInputChange}
+                          />
+                        </Col>
+                      </Form.Group>
+                      <Form.Group as={Row} controlId="formPhoneNumber" style={{marginTop:"20px"}}>
+                        <Form.Label column sm={2}>NIC Number</Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            type="number"
+                            placeholder="NIC"
+                            name="NIC"
+                            value={userData.NIC || ''}
+                            readOnly={!edit}
+                            onChange={handleInputChange}
+                          />
+                        </Col>
+                      </Form.Group>
+                      <Form.Group as={Row} controlId="formPhoneNumber" style={{marginTop:"20px"}}>
+                        <Form.Label column sm={2}>Type</Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            type="text"
+                            placeholder="type"
+                            name="type"
+                            value={userData.type || ''}
+                            readOnly
                             onChange={handleInputChange}
                           />
                         </Col>
@@ -123,7 +149,7 @@ export default function UserProfile() {
                 </Form>
 
                 <div style={styles.userProBtnSection}>
-                  <Button
+                  <Button 
                     onClick={() => setEdit(!edit)} // Toggle edit mode
                     style={styles.userProBtn}
                   >
@@ -132,14 +158,17 @@ export default function UserProfile() {
                   {edit && (
                     <Button
                       onClick={handleUpdate} // Call handleUpdate on button click
-                      style={styles.userProBtn}
+                     variant="outline-warning"
                     >
                       Update
                     </Button>
                   )}
                 </div>
+                <Button variant="outline-success" style={{marginTop:"22px",width:"50%",marginLeft:"22%",height:"40px",fontWeight:"bold"}}>My Orders</Button>
               </div>
             </div>
+                
+           
           </Col>
         </Row>
       </Container>
@@ -150,7 +179,7 @@ export default function UserProfile() {
 // Styling for the component
 const styles = {
   userProfileAll: {
-    width: '50%',
+    width: '70%',
     margin: '20px auto',
     border: '2px solid #020000',
     backgroundColor: '#fbfeff',
@@ -165,7 +194,7 @@ const styles = {
   userProfileHeader: {
     backgroundColor: 'rgb(3, 138, 52)',
     width: '50%',
-    margin: '20px auto',
+    margin: '10px auto',
     textAlign: 'center',
     borderRadius: '10px',
     color: 'white',
@@ -174,13 +203,13 @@ const styles = {
   },
   userProBtnSection: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'start',
     marginTop: '20px',
   },
   userProBtn: {
+    backgroundColor:`red`,
     padding: '10px 20px',
     borderRadius: '10px',
-    backgroundColor: 'rgb(0, 61, 244)',
     color: 'white',
     fontSize: '16px',
     cursor: 'pointer',
@@ -189,3 +218,6 @@ const styles = {
     marginRight: '10px',
   },
 };
+
+
+
