@@ -11,6 +11,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import Supplier from "./pages/Supplierpage/Supplier";
 import EditStatus from "./pages/Supplierpage/EditStatus";
 import ViewOrders from "./pages/userProfile/ViewOrders";
+import ViewRequests from "./pages/userProfile/ViewRequests";
 
 
 
@@ -105,6 +106,7 @@ function App() {
 
           <Route path="user" element={<User />} />
           <Route path="vieworder" element={<ViewOrders/>} />
+          <Route path="viewrequest" element={<ViewRequests/>} />
 
           <Route path="buyer" element={<BuyerSelectionPage />} />
 
