@@ -1,11 +1,16 @@
-import { Container, Col, Row, Form, Button } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useRef } from 'react';
+import { Container, Col, Row, Form, Button } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { PDFDownloadLink, Document, Page, Text, View } from '@react-pdf/renderer';
 
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function UserProfile() {
   const [userData, setUserData] = useState({});
   const [edit, setEdit] = useState(false);
+  const pdfRef = useRef();
 
   // Fetch user data on component mount
   useEffect(() => {
@@ -13,27 +18,29 @@ export default function UserProfile() {
     const id = localStorage.getItem('userId');
 
     if (token) {
-      axios.get(`http://localhost:8000/user/getCurrentUser/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }).then(response => {
-        console.log(response.data);
-        setUserData(response.data); // Set the user data
-      }).catch(error => {
-        console.log('Error fetching user profile:', error);
-        alert("Can't find user informations")
-      });
+      axios
+        .get(`http://localhost:8000/user/getCurrentUser/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setUserData(response.data); // Set the user data
+        })
+        .catch((error) => {
+          console.log('Error fetching user profile:', error);
+          // Handle error fetching user profile
+        });
     }
   }, []);
- 
 
   // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUserData(prevState => ({
+    setUserData((prevState) => ({
       ...prevState,
-      [name]: value // Update the corresponding field in userData
+      [name]: value, // Update the corresponding field in userData
     }));
   };
 
@@ -44,26 +51,48 @@ export default function UserProfile() {
 
     if (token) {
       try {
-        const response = await axios.put(`http://localhost:8000/user/updateCurrentUser/${id}`, userData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
+        const response = await axios.put(
+          `http://localhost:8000/user/updateCurrentUser/${id}`,
+          userData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
           }
-        });
+        );
         console.log('User updated successfully:', response.data);
-         alert("Update successfully")
-        
+        toast.success('Successfully Updated');
+
         setEdit(false); // Disable edit mode after successful update
       } catch (error) {
         console.error('Error updating user profile:', error);
-        alert("Can't Update data")
+        toast.error("Can't update data");
+        // Handle error updating user profile
       }
     }
   };
 
+  // PDF Document Component
+  const MyDocument = () => (
+    <Document>
+      <Page style={styles.page}>
+        <View style={styles.section}>
+          <Text style={styles.title}>User Profile</Text>
+          <Text>Name: {userData.name}</Text>
+          <Text>Email: {userData.email}</Text>
+          <Text>Phone Number: {userData.contactNumber}</Text>
+          <Text>NIC Number: {userData.NIC}</Text>
+          <Text>Type: {userData.type}</Text>
+        </View>
+      </Page>
+    </Document>
+  );
+
   return (
     <div>
-      <Container style={{marginTop:"40px"}}>
+      <Container style={{ marginTop: '40px' }}>
+        <ToastContainer position="top-center" />
         <Row>
           <Col>
             <div style={styles.userProfileAll}>
@@ -72,13 +101,17 @@ export default function UserProfile() {
                   <h1>User Profile</h1>
                 </div>
 
-              
-
                 <Form className="user-profile-form">
                   <div className="user-profile-all-letters">
                     <div className="user-pro-letters">
-                      <Form.Group as={Row} controlId="formFirstName" style={{marginTop:"10px"}}>
-                        <Form.Label column sm={2}>Name</Form.Label>
+                      <Form.Group
+                        as={Row}
+                        controlId="formFirstName"
+                        style={{ marginTop: '10px' }}
+                      >
+                        <Form.Label column sm={2}>
+                          Name
+                        </Form.Label>
                         <Col sm={10}>
                           <Form.Control
                             type="text"
@@ -91,8 +124,14 @@ export default function UserProfile() {
                         </Col>
                       </Form.Group>
 
-                      <Form.Group as={Row} controlId="formEmail" style={{marginTop:"20px"}}>
-                        <Form.Label column sm={2}>Email</Form.Label>
+                      <Form.Group
+                        as={Row}
+                        controlId="formEmail"
+                        style={{ marginTop: '20px' }}
+                      >
+                        <Form.Label column sm={2}>
+                          Email
+                        </Form.Label>
                         <Col sm={10}>
                           <Form.Control
                             type="email"
@@ -105,8 +144,14 @@ export default function UserProfile() {
                         </Col>
                       </Form.Group>
 
-                      <Form.Group as={Row} controlId="formPhoneNumber" style={{marginTop:"20px"}}>
-                        <Form.Label column sm={2}>Phone Number</Form.Label>
+                      <Form.Group
+                        as={Row}
+                        controlId="formPhoneNumber"
+                        style={{ marginTop: '20px' }}
+                      >
+                        <Form.Label column sm={2}>
+                          Phone Number
+                        </Form.Label>
                         <Col sm={10}>
                           <Form.Control
                             type="number"
@@ -118,11 +163,18 @@ export default function UserProfile() {
                           />
                         </Col>
                       </Form.Group>
-                      <Form.Group as={Row} controlId="formPhoneNumber" style={{marginTop:"20px"}}>
-                        <Form.Label column sm={2}>NIC Number</Form.Label>
+
+                      <Form.Group
+                        as={Row}
+                        controlId="formNIC"
+                        style={{ marginTop: '20px' }}
+                      >
+                        <Form.Label column sm={2}>
+                          NIC Number
+                        </Form.Label>
                         <Col sm={10}>
                           <Form.Control
-                            type="number"
+                            type="text"
                             placeholder="NIC"
                             name="NIC"
                             value={userData.NIC || ''}
@@ -131,12 +183,19 @@ export default function UserProfile() {
                           />
                         </Col>
                       </Form.Group>
-                      <Form.Group as={Row} controlId="formPhoneNumber" style={{marginTop:"20px"}}>
-                        <Form.Label column sm={2}>Type</Form.Label>
+
+                      <Form.Group
+                        as={Row}
+                        controlId="formType"
+                        style={{ marginTop: '20px' }}
+                      >
+                        <Form.Label column sm={2}>
+                          Type
+                        </Form.Label>
                         <Col sm={10}>
                           <Form.Control
                             type="text"
-                            placeholder="type"
+                            placeholder="Type"
                             name="type"
                             value={userData.type || ''}
                             readOnly
@@ -149,26 +208,41 @@ export default function UserProfile() {
                 </Form>
 
                 <div style={styles.userProBtnSection}>
-                  <Button 
+                  <Button
                     onClick={() => setEdit(!edit)} // Toggle edit mode
                     style={styles.userProBtn}
                   >
-                    {edit ? "Cancel" : "Edit"}
+                    {edit ? 'Cancel' : 'Edit'}
                   </Button>
                   {edit && (
-                    <Button
-                      onClick={handleUpdate} // Call handleUpdate on button click
-                     variant="outline-warning"
-                    >
+                    <Button onClick={handleUpdate} variant="outline-warning">
                       Update
                     </Button>
                   )}
+                  <PDFDownloadLink
+                    document={<MyDocument />}
+                    fileName="user_profile.pdf"
+                    style={{ textDecoration: 'none', marginLeft: 'auto' }}
+                  >
+                    {({ blob, url, loading, error }) =>
+                      loading ? 'Loading document...' : 'Download PDF'
+                    }
+                  </PDFDownloadLink>
                 </div>
-                <Button variant="outline-success" style={{marginTop:"22px",width:"50%",marginLeft:"22%",height:"40px",fontWeight:"bold"}}>My Orders</Button>
+                <Button
+                  variant="outline-success"
+                  style={{
+                    marginTop: '22px',
+                    width: '50%',
+                    marginLeft: '22%',
+                    height: '40px',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  My Orders
+                </Button>
               </div>
             </div>
-                
-           
           </Col>
         </Row>
       </Container>
@@ -207,7 +281,7 @@ const styles = {
     marginTop: '20px',
   },
   userProBtn: {
-    backgroundColor:`red`,
+    backgroundColor: 'red',
     padding: '10px 20px',
     borderRadius: '10px',
     color: 'white',
@@ -217,7 +291,18 @@ const styles = {
     transition: 'background-color 0.3s ease, color 0.3s ease',
     marginRight: '10px',
   },
+  page: {
+    flexDirection: 'row',
+    backgroundColor: '#E4E4E4',
+  },
+  section: {
+    margin: 10,
+    padding: 10,
+    flexGrow: 1,
+  },
+  title: {
+    fontSize: 24,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
 };
-
-
-
