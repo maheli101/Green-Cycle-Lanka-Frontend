@@ -24,7 +24,7 @@ function ColorSchemesExample() {
         console.log(userData);
       }).catch(error => {
         console.log('Error fetching user profile:', error);
-        alert("Can't find user information");
+        
       });
     }
   }, []);
@@ -76,7 +76,6 @@ function ColorSchemesExample() {
         </Container>
       </Navbar>
 
-      {/* Additional content can be added here */}
     </>
   );
 }
