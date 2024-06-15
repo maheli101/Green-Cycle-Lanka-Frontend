@@ -4,12 +4,13 @@ import axios from 'axios';
 import { Link } from "react-router-dom";
 
 function RequestForm() {
-  const [material, setMaterial] = useState('plastic'); // Set default to 'plastic'
+  const [material, setMaterial] = useState('plastic');
   const [amount, setAmount] = useState(10);
   const [town, setTown] = useState('');
   const [email, setEmail] = useState('');
   const [showModal, setShowModal] = useState(false); 
   const [modalMessage, setModalMessage] = useState(''); 
+  const [errors, setErrors] = useState({}); 
 
   const townsInColombo = [
     'Angoda', 'Athurugiriya', 'Avissawella', 'Battaramulla', 'Battaramulla South',
@@ -28,44 +29,54 @@ function RequestForm() {
   const handleAmountChange = (e) => setAmount(e.target.value);
   const handleTownChange = (e) => setTown(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
+  const userId = localStorage.getItem('userId');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validation
-    if (!email.trim() || !town.trim()) {
-      setModalMessage('Please fill out all fields.');
-      setShowModal(true);
-      return;
-    }
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setModalMessage('Please enter a valid email address.');
-      setShowModal(true);
-      return;
-    }
-    // End of Validation
-    console.log({ material, amount, town, email }); // Log form data for debugging
+    if (!validateForm()) return; 
     try {
       const response = await axios.post('http://localhost:8000/Request/postRequest', {
         material,
         amount,
         town,
-        email
+        userId
+        
       });
-      console.log('Request placed successfully:', response.data);
-      setModalMessage('Your request has been submitted successfully! We will review it and get back to you soon. Thank you for contacting us! 🌟');
+      setModalMessage('Your request has been successfully submitted! We will get in touch with you shortly. Thank you for your request! 🌱🔄');
       setShowModal(true); 
-      setMaterial('plastic'); // Reset to default
+      setMaterial('plastic');
       setAmount(10);
       setTown('');
       setEmail('');
     } catch (error) {
-      console.error('Error placing request:', error);
+      console.error('Error submitting request:', error);
       setModalMessage('Oops! 😓 Something went wrong submitting your request. Please try again later or contact support. We apologize for any inconvenience. 🛠️ ');
       setShowModal(true); 
     }
   };
 
   const handleCloseModal = () => setShowModal(false); 
+
+  const validateForm = () => {
+    const errors = {};
+    let isValid = true;
+
+    if (!email.trim()) {
+      errors.email = 'Email is required';
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = 'Invalid email address';
+      isValid = false;
+    }
+
+    if (!town.trim()) {
+      errors.town = 'Town is required';
+      isValid = false;
+    }
+
+    setErrors(errors);
+    return isValid;
+  };
 
   return (
     <Container style={{ marginTop: '150px', width: "50%" }}>
@@ -92,16 +103,18 @@ function RequestForm() {
               <option key={index} value={town}>{town}</option>
             ))}
           </Form.Control>
+          {errors.town && <Form.Text className="text-danger">{errors.town}</Form.Text>}
         </Form.Group>
         <Form.Group controlId="emailInput">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" placeholder="Enter your email" value={email} onChange={handleEmailChange} />
+          {errors.email && <Form.Text className="text-danger">{errors.email}</Form.Text>}
         </Form.Group>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: "28px" }}>
           <Button variant="primary" type="submit" style={{ marginRight: '10px' }}>
             Submit Request
           </Button>
-          <Link to={"/supplier"}>
+          <Link to={"/buyer"}>
             <Button variant="secondary">Back</Button>
           </Link>
         </div>
