@@ -71,9 +71,22 @@ export default function Vehicleregister() {
     }
   }
 
+  // Function to validate Sri Lankan vehicle number format
+  function isValidSriLankanVehicleNumber(number) {
+    const oldFormat = /^[A-Z]{2,3}\d{4}$/;
+    const newFormat = /^[A-Z]{1,2}\d{1,2}-\d{4}$/;
+    return oldFormat.test(number) || newFormat.test(number);
+  }
+
   // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Validate vehicle number format
+    if (!isValidSriLankanVehicleNumber(formData.vehicleNumber)) {
+      toast.error("Invalid Sri Lankan vehicle number format");
+      return;
+    }
 
     try {
       const response = await axios.post("http://localhost:8000/Vehicle/postVehicle",
@@ -104,7 +117,7 @@ export default function Vehicleregister() {
 
     } catch (error) {
       // Handle error here (uncomment if needed)
-       toast.error("Only drivers can add vehicles");
+      toast.error("Only drivers can add vehicles");
       // console.log(error);
     }
   };
