@@ -63,9 +63,7 @@ function ColorSchemesExample() {
               <Nav.Link style={{ color: 'white' }} href="login">
                 Login
               </Nav.Link>
-              <Nav.Link style={{ color: 'white' }} href="vehicle">
-                Add Your Vehicle
-              </Nav.Link>
+            
               <Nav.Link style={{ color: 'white' }} href="aboutUs">
                 About us
               </Nav.Link>
