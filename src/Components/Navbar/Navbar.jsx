@@ -29,6 +29,18 @@ function ColorSchemesExample() {
     }
   }, []);
 
+  const handleLogout = () => {
+    const itemsToRemove = ['token', 'userId', 'userName', 'isDriver'];
+  
+    itemsToRemove.forEach(item => {
+      localStorage.removeItem(item); // Remove each item from localStorage
+    });
+  
+    // Redirect the user to the login page
+    window.location.href = '/login';
+  };
+  
+
   return (
     <>
       <Navbar fixed="top" bg="success" expand="lg" style={{ color: 'white' }}>
@@ -68,7 +80,7 @@ function ColorSchemesExample() {
                   
                 >
                   <NavDropdown.Item href="/user" style={{ color: 'black' }}>Profile</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3" style={{ color: 'black' }}>Logout</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3" style={{ color: 'black' }} onClick={handleLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               )}
             </Nav>
