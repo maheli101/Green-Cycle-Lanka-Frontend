@@ -2,16 +2,32 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import { Button as MUIButton, TextField, Typography, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@mui/material';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function End() {
   const [comment, setComment] = useState('');
   const [mood, setMood] = useState('');
-
+  const navigate = useNavigate()
   const handleCommentChange = (e) => setComment(e.target.value);
   const handleMoodChange = (e) => setMood(e.target.value);
-  const handleSubmit = () => {
-    // Add logic to save the comment and mood, e.g., send to backend server
-    alert(`Comment: ${comment}\nMood: ${mood}`);
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/order/driver_comments', {
+        comment,
+        mood,
+      });
+
+      if (response.status !== 201) {
+        throw new Error('Failed to save comment');
+      }
+
+      alert('Comment saved successfully');
+      navigate('/welcome');
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error saving comment');
+    }
   };
 
   return (

@@ -28,8 +28,8 @@ const Start = () => {
   const id = localStorage.getItem('userId')
   const navigate = useNavigate();
 
-  const navWelcome = ()=>{
-    navigate('/Welcome')
+  const navEnd= ()=>{
+    navigate('/End')
   }
   useEffect(() => {
     const fetchData = async () => {
@@ -92,7 +92,7 @@ const Start = () => {
           <Grid item xs={12} sm={8} md={6}>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={12}>
-                <Button variant="contained" style={styles.button} className="button-animation" fullWidth onClick={navWelcome}>
+                <Button variant="contained" style={styles.button} className="button-animation" fullWidth onClick={navEnd}>
                   END TRIP
                 </Button>
               </Grid>
