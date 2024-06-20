@@ -24,7 +24,7 @@ function MainLayout() {
           <Navbar />
         </Col>
       </Row>
-      <Row style={{ minHeight: "100vh", marginTop: "85px" }}>
+      <Row style={{ minHeight: "100vh", marginTop: "77px" }}>
         <Col>
           <Outlet />
         </Col>
