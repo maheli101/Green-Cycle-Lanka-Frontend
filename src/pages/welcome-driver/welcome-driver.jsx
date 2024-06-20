@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 function Welcome() {
   return (
-    <Container fluid className="d-flex flex-column justify-content-center align-items-center vh-100" style={{ backgroundColor: '#ffffff' }}>
+    <Container fluid className="d-flex flex-column justify-content-center align-items-center vh-100 position-relative" style={{ backgroundColor: '#ffffff' }}>
       <style>
         {`
           .welcome-container {
@@ -30,6 +30,19 @@ function Welcome() {
             animation: slidein 2s;
           }
 
+          .vehicle-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #17a2b8;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            animation: fadein 2s;
+          }
+
           @keyframes fadein {
             from {
               opacity: 0;
@@ -51,6 +64,9 @@ function Welcome() {
           }
         `}
       </style>
+      <Link to="/vehicle">
+        <Button className="vehicle-button">Add Vehicle Details</Button>
+      </Link>
       <Row className="justify-content-center w-100">
         <Col xs={11} sm={10} md={8} lg={6} className="welcome-container">
           <div className="text-center p-5 mb-4 welcome-content">
@@ -61,9 +77,10 @@ function Welcome() {
             <h2 className="h5 text-white">Green Cycle Lanka Team</h2>
           </div>
           <div className="text-center">
-            
-            <Link to='/Pickup'> <Button className="btn-success welcome-button">Get Started</Button></Link>         
-             </div>
+            <Link to="/Pickup">
+              <Button className="btn-success welcome-button">Get Started</Button>
+            </Link>
+          </div>
         </Col>
       </Row>
     </Container>
