@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Button } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
 function ViewOrders() {
   const [orders, setOrders] = useState([]);
@@ -281,8 +283,14 @@ function ViewOrders() {
           </tbody>
         </table>
       </div>
+      <Link to = "/user">
+      <Button variant="secondary"  style={{marginTop:"35px"}}>back</Button>
+      </Link>
     </div>
+    
   );
+
+ 
 }
 
 export default ViewOrders;

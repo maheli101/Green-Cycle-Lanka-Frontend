@@ -3,6 +3,7 @@ import { Container, Col, Row, Form, Button } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { PDFDownloadLink, Document, Page, Text, View } from '@react-pdf/renderer';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
@@ -229,18 +230,37 @@ export default function UserProfile() {
                     }
                   </PDFDownloadLink>
                 </div>
-                <Button
-                  variant="outline-success"
-                  style={{
-                    marginTop: '22px',
-                    width: '50%',
-                    marginLeft: '22%',
-                    height: '40px',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  My Orders
-                </Button>
+
+                <Link to="/vieworder">
+                  <Button
+                    variant="outline-success"
+                    style={{
+                      marginTop: '22px',
+                      width: '50%',
+                      marginLeft: '22%',
+                      height: '40px',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    View My Orders
+                  </Button>
+                </Link>
+
+                <Link to="/viewrequest">
+                  <Button
+                    variant="outline-success"
+                    style={{
+                      marginTop: '22px',
+                      width: '50%',
+                      marginLeft: '22%',
+                      height: '40px',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    View My Pickup Requests
+                  </Button>
+                </Link>
+
               </div>
             </div>
           </Col>
