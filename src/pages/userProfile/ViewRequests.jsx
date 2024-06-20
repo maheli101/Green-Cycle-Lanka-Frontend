@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Button } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
 function ViewRequests() {
   const [requests, setRequests] = useState([]);
@@ -280,6 +282,9 @@ function ViewRequests() {
           </tbody>
         </table>
       </div>
+      <Link to = "/user">
+      <Button variant="secondary"  style={{marginTop:"35px"}}>back</Button>
+      </Link>
     </div>
   );
 }

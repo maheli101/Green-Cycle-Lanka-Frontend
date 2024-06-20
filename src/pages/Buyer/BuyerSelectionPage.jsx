@@ -51,23 +51,29 @@ function ContainerFluidExample() {
 
       <Row className="mt-4 justify-content-center">
         <Col xs={6} sm={3} >
-          <button style={buttonStyle} onClick={() => alert("Category 1 clicked!")}>
+        <Link to={"/buyerForm"}>
+          <button style={buttonStyle} >
             <img src={categoryImg1} alt="Category 1" style={imageStyle} />
           </button>
+          </Link>
         </Col>
         <Col xs={6} sm={3} >
-          <button style={buttonStyle} onClick={() => alert("Category 2 clicked!")}>
+        <Link to={"/buyerForm"}>
+          <button style={buttonStyle} >
             <img src={categoryImg2} alt="Category 2" style={imageStyle} />
           </button>
+          </Link>
         </Col>
         <Col xs={6} sm={3} >
-          <button style={buttonStyle} onClick={() => alert("Category 3 clicked!")}>
+        <Link to={"/buyerForm"}>
+          <button style={buttonStyle} >
             <img src={categoryImg3} alt="Category 3" style={imageStyle} />
           </button>
+          </Link>
         </Col>
         <Col xs={6} sm={3} >
           <Link to={"/buyerForm"}>
-          <button style={buttonStyle} onClick={() => alert("Category 4 clicked!")}>
+          <button style={buttonStyle} >
             <img src={categoryImg4} alt="Category 4" style={imageStyle} />
           </button>
           </Link>
