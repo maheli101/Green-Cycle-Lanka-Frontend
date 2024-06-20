@@ -21,7 +21,7 @@ function LoginPage() {
     try {
       // Send a POST request to "/loginRoute" endpoint with email and password
       const response = await axios.post("/loginRoute", { email, password });
-
+      console.log(response.data.isDriver);
       if (response.data.success) {
         // If login is successful:
         // Save user data to local storage
@@ -40,8 +40,8 @@ function LoginPage() {
         }
 
         // If user is a driver, navigate to profile page; otherwise navigate to home page
-        if (response.data.isDriver=="Ddriver") {
-          navigate("/profile");
+        if (response.data.isDriver=="Driver") {
+          navigate("/welcome");
         } else {
           navigate("/home"); // Replace with your desired route for non-drivers
         }
