@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Container, Col, Row, Form, Button } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -11,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 export default function UserProfile() {
   const [userData, setUserData] = useState({});
   const [edit, setEdit] = useState(false);
+  const [errors, setErrors] = useState({});
   const pdfRef = useRef();
 
   // Fetch user data on component mount
@@ -39,9 +40,36 @@ export default function UserProfile() {
   // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    let error = '';
+
+    // Validate the name field to allow only letters
+    if (name === 'name' && /[^a-zA-Z\s]/.test(value)) {
+      error = 'Name can only contain letters';
+    }
+
+    // Validate the email field
+    if (name === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      error = 'Invalid email address';
+    }
+
+    // Validate the phone number field
+    if (name === 'contactNumber' && !/^0[0-9]{9}$/.test(value)) {
+      error = 'Phone number must start with 0 and be 10 digits long';
+    }
+
+    // Validate the NIC field for Sri Lankan NIC numbers
+    if (name === 'NIC' && !/^([0-9]{9}[VvXx]|[0-9]{12})$/.test(value)) {
+      error = 'Invalid NIC number. It must be in the format 123456789V or 123456789X (old format) or 12 digits (new format)';
+    }
+
     setUserData((prevState) => ({
       ...prevState,
       [name]: value, // Update the corresponding field in userData
+    }));
+
+    setErrors((prevState) => ({
+      ...prevState,
+      [name]: error,
     }));
   };
 
@@ -121,7 +149,11 @@ export default function UserProfile() {
                             value={userData.name || ''}
                             readOnly={!edit} // Make the field editable only if edit mode is enabled
                             onChange={handleInputChange}
+                            isInvalid={!!errors.name}
                           />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.name}
+                          </Form.Control.Feedback>
                         </Col>
                       </Form.Group>
 
@@ -141,7 +173,12 @@ export default function UserProfile() {
                             value={userData.email || ''}
                             readOnly={!edit}
                             onChange={handleInputChange}
+                            isInvalid={!!errors.email}
+                            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                           />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.email}
+                          </Form.Control.Feedback>
                         </Col>
                       </Form.Group>
 
@@ -155,13 +192,19 @@ export default function UserProfile() {
                         </Form.Label>
                         <Col sm={10}>
                           <Form.Control
-                            type="number"
+                            type="tel"
                             placeholder="Phone Number"
                             name="contactNumber"
                             value={userData.contactNumber || ''}
                             readOnly={!edit}
                             onChange={handleInputChange}
+                            isInvalid={!!errors.contactNumber}
+                            pattern="^0[0-9]{9}$"
+                            maxLength="10"
                           />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.contactNumber}
+                          </Form.Control.Feedback>
                         </Col>
                       </Form.Group>
 
@@ -181,7 +224,12 @@ export default function UserProfile() {
                             value={userData.NIC || ''}
                             readOnly={!edit}
                             onChange={handleInputChange}
+                            isInvalid={!!errors.NIC}
+                            pattern="^([0-9]{9}[VvXx]|[0-9]{12})$"
                           />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.NIC}
+                          </Form.Control.Feedback>
                         </Col>
                       </Form.Group>
 
