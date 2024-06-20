@@ -37,6 +37,8 @@ function LoginPage() {
         if (email === "admin@gmail.com") {
           navigate("/yard"); // Navigate to the admin page if email matches
           return; // Exit the function to prevent further navigation
+        }if(email=="driveradmin@gmail.com"){
+          navigate("/Driver_admin");
         }
 
         // If user is a driver, navigate to profile page; otherwise navigate to home page

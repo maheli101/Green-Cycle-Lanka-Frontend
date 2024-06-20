@@ -1,122 +1,132 @@
+// Import necessary hooks and components from React and third-party libraries
 import { useState } from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap"; // Importing necessary components from React Bootstrap
-import registerBCK from "../../assets/registerphotos/Regback.jpeg"; // Importing background image for registration page
-import { Link, useNavigate } from "react-router-dom"; // Importing Link and useNavigate hook from React Router
-import { post } from "../../Api/Axios.js"; // Importing custom post function from Axios API module
-import Upload from "../../utilities/upload.js"; // Importing file upload utility function
-import "react-toastify/dist/ReactToastify.css"; // Importing Toastify CSS for toast notifications
-import { toast, ToastContainer } from "react-toastify"; // Importing toast notifications from Toastify
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import registerBCK from "../../assets/registerphotos/Regback.jpeg"; // Import an image asset
+import { Link, useNavigate } from "react-router-dom"; // Import hooks from react-router-dom for navigation and linking
+import { post } from "../../Api/Axios.js"; // Import the post function for making API calls
+import Upload from "../../utilities/upload.js"; // Import the Upload function for handling file uploads
+import "react-toastify/dist/ReactToastify.css"; // Import toastify CSS for notifications
+import { toast, ToastContainer } from "react-toastify"; // Import Toastify components for showing notifications
 
+// Define the Register component as a functional component
 export default function Register() {
-  const navigate = useNavigate(); // Hook from React Router for navigation
+  const navigate = useNavigate(); // Initialize the useNavigate hook for navigation
+
+  // Initialize state for form data, response, validation errors, and file input
   const [formData, setFormData] = useState({
-    // State hook to manage form data
     name: "",
     email: "",
     contactNumber: "",
     NIC: "",
     password: "",
-    type: "User", // Default type is "User"
-    profilePicture: "null", // Default profile picture placeholder
+    type: "User",
+    profilePicture: "null",
   });
-  const [response, setResponse] = useState("No response yet"); // State hook to manage response message
-  const [errors, setErrors] = useState({}); // State hook to manage form validation errors
-  const [file, setFile] = useState(null); // State hook to manage uploaded file (profile picture)
+  const [response, setResponse] = useState("No response yet");
+  const [errors, setErrors] = useState({});
+  const [file, setFile] = useState(null);
 
-  // Validation functions
+  // Validation functions for various form fields
   const validateName = (name) => {
-    const regex = /^[a-zA-Z ]*$/; // Regular expression to allow only letters and spaces
+    const regex = /^[a-zA-Z ]*$/;
     return regex.test(name);
   };
 
   const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regular expression for validating email format
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
 
   const validateContactNumber = (contactNumber) => {
-    const regex = /^\d{10}$/; // Regular expression to match exactly 10 digits
+    const regex = /^0\d{9}$/; // Regex for a number starting with 0 and exactly 10 digits
     return regex.test(contactNumber);
   };
 
-  const validateNIC = (NIC) => {
-    const regex = /^\d{12}$/; // Regular expression to match exactly 12 digits
-    return regex.test(NIC);
+  const validatePassword = (password) => {
+    const regex =
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    return regex.test(password);
   };
 
-  const validatePassword = (password) => {
-    return password.length >= 6; // Password must be at least 6 characters long
+  const validateNIC = (NIC) => {
+    const regex = /^(\d{9}[VvXx]|[0-9]{12})$/; // Regex for Sri Lankan NIC format
+    return regex.test(NIC);
   };
 
   // Function to handle input changes in the form
   const handleChange = (e) => {
-    const { name, value, files } = e.target; // Destructure name, value, and files from event target
-    let newErrors = { ...errors }; // Create a copy of errors state object
+    const { name, value, files } = e.target; // Destructure name, value, and files from the event target
+    let newErrors = { ...errors }; // Create a copy of the current errors state
 
+    // Validate the input based on its name and update the errors state accordingly
     switch (name) {
       case "name":
         newErrors.name = validateName(value)
           ? ""
-          : "Name should contain only letters"; // Validate name field
+          : "Name should contain only letters";
         break;
       case "email":
         newErrors.email = validateEmail(value)
           ? ""
-          : "Please enter a valid email"; // Validate email field
+          : "Please enter a valid email";
         break;
       case "contactNumber":
         newErrors.contactNumber = validateContactNumber(value)
           ? ""
-          : "Contact number should contain exactly 10 numbers"; // Validate contact number field
+          : "Contact number should start with 0 and contain exactly 10 numbers";
         break;
       case "NIC":
         newErrors.NIC = validateNIC(value)
           ? ""
-          : "NIC should contain exactly 12 numbers"; // Validate NIC field
+          : "Please enter a valid Sri Lankan NIC";
         break;
       case "password":
         newErrors.password = validatePassword(value)
           ? ""
-          : "Password should be at least 6 characters"; // Validate password field
+          : "Password should be at least 6 characters long, contain one uppercase letter, one number, and one special character";
         break;
       default:
         break;
     }
 
-    setErrors(newErrors); // Update errors state with newErrors object
-    setFormData({ ...formData, [name]: value }); // Update formData state with new value
+    setErrors(newErrors); // Update the errors state with new errors
+    setFormData({ ...formData, [name]: value }); // Update the form data state with the new input value
+
+    // If the profile picture field is being updated, store the file
     if (name === "profilePicture") {
-      setFile(files[0]); // Set file state with uploaded file (profile picture)
+      setFile(files[0]);
     }
   };
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault(); // Prevent the default form submission behavior
 
+    // Check if a file is uploaded, if not show an error toast
     if (!file) {
-      toast.error("please upload a picture"); // Display error toast if no picture is uploaded
+      toast.error("Please upload a picture");
       return;
     }
 
     let url = "";
     try {
-      url = await Upload(file); // Upload file (profile picture) and get URL
+      url = await Upload(file); // Attempt to upload the file and get the URL
     } catch (err) {
-      toast.error("Can't upload files"); // Display error toast if file upload fails
+      toast.error("Can't upload files"); // Show error toast if file upload fails
       return;
     }
 
     try {
+      // Make a POST request to register the user
       const response = await post("http://localhost:8000/user/postUser", {
         ...formData,
         profilePicture: url,
       });
-      setResponse(response.data); // Set response message state with data from API response
+      setResponse(response.data); // Update the response state with the server response
 
-      toast.success(response.message); // Display success toast with message
+      toast.success(response.message); // Show success toast notification
 
-      // Reset the form after successful submission
+      // Reset form data after successful registration
       setFormData({
         name: "",
         email: "",
@@ -124,27 +134,25 @@ export default function Register() {
         NIC: "",
         password: "",
         type: "User",
-        profilePicture: " ", // Clear profile picture field after submission
+        profilePicture: "",
       });
 
-      // Delay navigation for 3 seconds
+      // Redirect to login page after a delay
       setTimeout(() => {
-        navigate("/login"); // Navigate to login page after 3 seconds
-      }, 3000); // 3000 milliseconds = 3 seconds
+        navigate("/login");
+      }, 1000);
     } catch (error) {
       console.log(error);
-      toast.error("e-mail and NIC must be unique"); // Display error toast for unique email and NIC constraint
+      toast.error("Email and NIC must be unique"); // Show error toast if registration fails
     }
   };
 
-  // JSX returned by the component
   return (
     <Container
       fluid
       className="vh-100 d-flex align-items-center justify-content-center"
     >
-      <ToastContainer position="top-center" />{" "}
-      {/* Toast notification container */}
+      <ToastContainer position="top-center" /> {/* Position the toast notifications */}
       <Row>
         <Col md={6}>
           <img
@@ -155,10 +163,8 @@ export default function Register() {
         </Col>
         <Col md={6}>
           <Form onSubmit={handleSubmit}>
-            {" "}
-            {/* Form component with onSubmit event handler */}
-            <h1 className="mb-4">Register Form</h1>{" "}
-            {/* Heading for the registration form */}
+            <h1 className="mb-4">Register Form</h1>
+            {/* Form field for Name */}
             <Form.Group controlId="formName" className="mb-3">
               <Form.Label>Name</Form.Label>
               <Form.Control
@@ -168,13 +174,13 @@ export default function Register() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                isInvalid={!!errors.name} // Display invalid state if there are errors
+                isInvalid={!!errors.name} // Show validation error if name is invalid
               />
               <Form.Control.Feedback type="invalid">
                 {errors.name}
-              </Form.Control.Feedback>{" "}
-              {/* Display error message */}
+              </Form.Control.Feedback>
             </Form.Group>
+            {/* Form field for Email */}
             <Form.Group controlId="formEmail" className="mb-3">
               <Form.Label>Email</Form.Label>
               <Form.Control
@@ -184,13 +190,13 @@ export default function Register() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                isInvalid={!!errors.email} // Display invalid state if there are errors
+                isInvalid={!!errors.email} // Show validation error if email is invalid
               />
               <Form.Control.Feedback type="invalid">
                 {errors.email}
-              </Form.Control.Feedback>{" "}
-              {/* Display error message */}
+              </Form.Control.Feedback>
             </Form.Group>
+            {/* Form field for Contact Number */}
             <Form.Group controlId="formContactNumber" className="mb-3">
               <Form.Label>Contact Number</Form.Label>
               <Form.Control
@@ -200,13 +206,13 @@ export default function Register() {
                 value={formData.contactNumber}
                 onChange={handleChange}
                 required
-                isInvalid={!!errors.contactNumber} // Display invalid state if there are errors
+                isInvalid={!!errors.contactNumber} // Show validation error if contact number is invalid
               />
               <Form.Control.Feedback type="invalid">
                 {errors.contactNumber}
-              </Form.Control.Feedback>{" "}
-              {/* Display error message */}
+              </Form.Control.Feedback>
             </Form.Group>
+            {/* Form field for NIC */}
             <Form.Group controlId="formNIC" className="mb-3">
               <Form.Label>NIC</Form.Label>
               <Form.Control
@@ -216,13 +222,13 @@ export default function Register() {
                 value={formData.NIC}
                 onChange={handleChange}
                 required
-                isInvalid={!!errors.NIC} // Display invalid state if there are errors
+                isInvalid={!!errors.NIC} // Show validation error if NIC is invalid
               />
               <Form.Control.Feedback type="invalid">
                 {errors.NIC}
-              </Form.Control.Feedback>{" "}
-              {/* Display error message */}
+              </Form.Control.Feedback>
             </Form.Group>
+            {/* Form field for Password */}
             <Form.Group controlId="formPassword" className="mb-3">
               <Form.Label>Password</Form.Label>
               <Form.Control
@@ -232,13 +238,13 @@ export default function Register() {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                isInvalid={!!errors.password} // Display invalid state if there are errors
+                isInvalid={!!errors.password} // Show validation error if password is invalid
               />
               <Form.Control.Feedback type="invalid">
                 {errors.password}
-              </Form.Control.Feedback>{" "}
-              {/* Display error message */}
+              </Form.Control.Feedback>
             </Form.Group>
+            {/* Form field for User Type */}
             <Form.Group controlId="formUserType" className="mb-4">
               <Form.Label>User Type</Form.Label>
               <Form.Select
@@ -247,24 +253,21 @@ export default function Register() {
                 onChange={handleChange}
                 required
               >
-                <option value="Driver" name="Driver">
-                  Driver
-                </option>{" "}
-                {/* Option for Driver */}
-                <option value="User" name="User">
-                  User
-                </option>{" "}
-                {/* Option for User */}
+                <option value="Driver">Driver</option>
+                <option value="User">User</option>
               </Form.Select>
             </Form.Group>
+            {/* Form field for Profile Picture */}
             <Form.Group controlId="formProfilePicture" className="mb-4">
               <Form.Label>Upload Your Photo</Form.Label>
               <Form.Control
                 type="file"
                 name="profilePicture"
                 onChange={handleChange}
+                required
               />
             </Form.Group>
+            {/* Submit button */}
             <Button type="submit" variant="primary" className="me-3">
               Register
             </Button>
