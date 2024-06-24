@@ -17,18 +17,40 @@ export default function Vehicleregister() {
   });
 
   const [response, setResponse] = useState(null);
+  const token = localStorage.getItem('token');
 
   // Function to handle input changes
   function handleChange(event) {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+
+    // Special case for insuranceCard to limit to 12 characters
+    if (name === "inusaranceCard") {
+      // Allow both strings and numbers, limit to 12 characters
+      const truncatedValue = value.slice(0, 12); // Allow only first 12 characters
+      setFormData({ ...formData, [name]: truncatedValue });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   }
 
-  // Function to restrict input to only numeric characters for lisonNumber
+  // Function to restrict input to only numeric characters for lisonNumber and limit to 7 digits
   function handleLisonNumberKeyPress(event) {
     const charCode = event.charCode;
-    if (!/[0-9]/.test(String.fromCharCode(charCode))) {
+    const lisonNumber = event.target.value;
+
+    // Allow only numeric characters and limit length to 7
+    if (!/[0-9]/.test(String.fromCharCode(charCode)) || lisonNumber.length >= 7) {
       event.preventDefault();
+    }
+  }
+
+  // Function to handle and validate input changes for lisonNumber
+  function handleLisonNumberChange(event) {
+    const { name, value } = event.target;
+
+    // Allow only numeric characters and limit length to 7
+    if (/^[0-9]{0,7}$/.test(value)) {
+      setFormData({ ...formData, [name]: value });
     }
   }
 
@@ -93,6 +115,7 @@ export default function Vehicleregister() {
         formData,
         {
           headers: {
+            'x-auth-token': token,
             id: localStorage.getItem("userId"),
             driver: localStorage.getItem("isDriver"),
           },
@@ -118,7 +141,7 @@ export default function Vehicleregister() {
     } catch (error) {
       // Handle error here (uncomment if needed)
       toast.error("Only drivers can add vehicles");
-      // console.log(error);
+      console.log(error);
     }
   };
 
@@ -197,7 +220,7 @@ export default function Vehicleregister() {
                       required
                       name="lisonNumber"
                       value={formData.lisonNumber}
-                      onChange={handleChange}
+                      onChange={handleLisonNumberChange}
                       onKeyPress={handleLisonNumberKeyPress}
                     />
                   </Form.Group>
