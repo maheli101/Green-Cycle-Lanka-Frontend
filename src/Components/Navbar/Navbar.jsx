@@ -16,6 +16,7 @@ function ColorSchemesExample() {
     if (token) {
       axios.get(`http://localhost:8000/user/getCurrentUser/${id}`, {
         headers: {
+          'x-auth-token': token,
           Authorization: `Bearer ${token}`
         }
       }).then(response => {

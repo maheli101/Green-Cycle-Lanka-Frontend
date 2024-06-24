@@ -138,9 +138,9 @@ export default function Register() {
       });
 
       // Redirect to login page after a delay
-      setTimeout(() => {
+    
         navigate("/login");
-      }, 1000);
+     
     } catch (error) {
       console.log(error);
       toast.error("Email and NIC must be unique"); // Show error toast if registration fails

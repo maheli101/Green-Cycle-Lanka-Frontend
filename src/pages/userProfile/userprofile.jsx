@@ -23,7 +23,8 @@ export default function UserProfile() {
       axios
         .get(`http://localhost:8000/user/getCurrentUser/${id}`, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            'x-auth-token': token,
+            Authorization: `Beare'x-auth-token': token,r ${token}`,
           },
         })
         .then((response) => {
@@ -77,7 +78,7 @@ export default function UserProfile() {
   const handleUpdate = async () => {
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('userId');
-
+console.log(token);
     if (token) {
       try {
         const response = await axios.put(
@@ -85,6 +86,7 @@ export default function UserProfile() {
           userData,
           {
             headers: {
+              'x-auth-token': token,
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
