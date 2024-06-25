@@ -26,6 +26,7 @@ function Order() {
     }
   };
 
+
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8000/order/deleteOrder/${id}`);
