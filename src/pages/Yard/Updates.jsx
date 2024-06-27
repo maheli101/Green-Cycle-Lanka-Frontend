@@ -27,8 +27,8 @@ function Updates() {
   const fetchAndProcessOrders = async () => {
     try {
       const response = await axios.get('http://localhost:8000/order/getOrders');
-      const confirmedOrders = response.data.filter(order => order.status === 'confirmed');
-      confirmedOrders.forEach(order => {
+      const acceptedOrders = response.data.filter(order => order.status === 'accepted');
+      acceptedOrders.forEach(order => {
         updateTotals(order.material.toLowerCase(), order.amount, 'decrease');
       });
     } catch (error) {
