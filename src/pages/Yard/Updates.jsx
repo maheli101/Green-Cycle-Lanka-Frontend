@@ -15,8 +15,8 @@ function Updates() {
   const fetchAndProcessRequests = async () => {
     try {
       const response = await axios.get('http://localhost:8000/request/getRequests');
-      const confirmedRequests = response.data.filter(request => request.status === 'confirmed');
-      confirmedRequests.forEach(request => {
+      const acceptedRequests = response.data.filter(request => request.status === 'accepted');
+      acceptedRequests.forEach(request => {
         updateTotals(request.material.toLowerCase(), request.amount, 'increase');
       });
     } catch (error) {
